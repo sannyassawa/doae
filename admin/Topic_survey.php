@@ -38,7 +38,7 @@
 			<div class="col-lg-12">
 				<form action="#" method="POST">
 
-				<pre style = 'color: #333;'>
+				<pre style="border: 0; background-color: transparent; " >
 					    หัวข้อประเด็น <input type="text" id="topic" style="width:50%"><br>
 					สถานะการแสดงผล <select name="type" id="status">
     <option value="active">ใช้งาน</option>
