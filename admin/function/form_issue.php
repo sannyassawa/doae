@@ -16,14 +16,15 @@ function form_issue($array_tab,$link){
 
 
         echo '
-						<span class="en"><a href="'.$link["$key"]["en"].'">'.$value["th"].'</a></span>
-						<span class="th"><a href="'.$link["$key"]["th"].'">'.$value["en"].'</a></span>';
+						<span class="en"><a href="'.$link["$key"]["en"].'">'.$value["en"].'</a></span>
+						<span class="th"><a href="'.$link["$key"]["th"].'">'.$value["th"].'</a></span>';
                         $i++;
 						if($i!=sizeof($array_tab)) {
                             echo '<b>	>  </b>';
                         }
     }
         echo '</div>
+        </div>
         </div>';
 
 }
