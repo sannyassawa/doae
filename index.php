@@ -108,7 +108,7 @@ include('header.php');
 				$objQuery = mysql_query($sql);
 				//echo $sql;
 					while ($row = mysql_fetch_array($objQuery)) {
-					echo "<div class='col-md-2 col-sm-6 text-center'>
+					echo "<div class='col-md-2 col-sm-6 text-center'style=' width: 19.666667%;'>
 							<div class='article_box_index'>";
 								
 							echo "<a href='article_sub.php?Cat=".$row['cat_article_id']."'>";
@@ -394,13 +394,15 @@ include('header.php');
 					
 					<?
 						$datemm = date("Y-m");
+						$dateda =  date("Y-m-d" );
+						$dateha = $dateda ." 00:00:00";
 						//echo $datemm;
 					
 						$sql = " select event_id,title,title_en, DATE_FORMAT(`start`,'%d/%m/%Y') as `start` from t_event";
 								 if($startDate == ""){
-									 
+									 $sql .= " where `start` > '".$dateha."' ";
 								 }else {
-									 $sql = " where `start` BETWEEN '".$startDate." 00:00:00' and '".$endDate." 23:59:59'";
+									 $sql .= " where `start` BETWEEN '".$startDate." 00:00:00' and '".$endDate." 23:59:59'";
 								 }
 							
 							//echo $sql;
@@ -434,10 +436,10 @@ include('header.php');
 		<!-- ยุวชนเกษตรดีเด่น -->
         <div class="row">
          
-				<h2 class="page-header"><span class="th">เกษตรกรดีเด่น</span><span class="en">เกษตรกรดีเด่น</span></h2>
+				<h2 class="page-header"><span class="th">บุคลากรดีเด่นด้านการเกษตร</span><span class="en">บุคลากรดีเด่นด้านการเกษตร</span></h2>
 				<hr class='border' />
 				<p class="text-right">
-					<a href="people.php" style="float: right;margin-top: -50px;">
+					<a href="people_cat.php" style="float: right;margin-top: -50px;">
 					<span class="en">ดูทั้งหมด</span>
 					<span class="th">ดูทั้งหมด</span>
 					</a>
@@ -445,30 +447,81 @@ include('header.php');
            
            
                 <div class="row">
-					<?
-					$sql = "select * from t_people where active = 1 
-							order by people_id DESC limit 4 ";
-					//echo $sql;
-					$objQuery = mysql_query($sql);
-						echo "<div class='carousel-inner'>";
-							while ($row = mysql_fetch_array($objQuery)) {
-								echo "<div class='col-md-3'>";
-											
-									echo "
-										<div class='text-center'>
-										<a href='people_detail.php?Id=".$row['people_id']."'>
-											<img class='img-responsive img-hover' src='".$row['images']."' alt='' style='height: 275px;width: 100%'>
-										</a> 
-										<br clear='all'>
-										<h5><span class='th'>".$row['title']."</span>
-										   <span class='en'>".$row['title_en']."</span></h5>
+					<div class="col-md-12">
+		<div class='boxPeople'>
+            <!-- begin panel group -->
+            <div class="panel-group" id="accordion" role="tablist" aria-multiselectable="true">
+                
+				<?php
+							$sql = "SELECT * FROM t_people_cat WHERE active = 1 ";
+							
+							$objQuery = mysql_query($sql);
+								while ($row = mysql_fetch_array($objQuery)) {
+									echo "<div class='panel panel-default'>
+										<span class='side-tab' data-target='#tab".$row['cat_people_id']."' data-toggle='tab' role='tab' aria-expanded='false'>
+											<div class='panel-heading' role='tab' id='headingOne'data-toggle='collapse' data-parent='#accordion' href='#collapse".$row['cat_people_id']."' aria-expanded='true' aria-controls='collapse".$row['cat_people_id']."'>
+												<h4 class='panel-title'><i class='fa fa-chevron-down' aria-hidden='true'></i> <span class='en'>".$row['name_en']."</span><span class='th'>".$row['name']."</span>";
+												
+												
+												
+									echo"	</h4>
 										</div>
+								
+										</span>";
 										
-									  </div>";
-							}
-					echo "</div>";
+										if($row['cat_people_id'] == 1){
+											echo "<div id='collapse".$row['cat_people_id']."' class='panel-collapse collapse in' role='tabpanel' aria-labelledby='heading".$row['cat_people_id']."'>";
+										}else{
+											echo "<div id='collapse".$row['cat_people_id']."' class='panel-collapse collapse' role='tabpanel' aria-labelledby='heading".$row['cat_people_id']."'>";
+										}
+										
+										
+										
+									echo	"<div class='panel-body'>";
+												$sql1 = "SELECT * FROM t_people where active = 1 and  ";
+													  
+												$sql1 .= "cat_people_id =".$row['cat_people_id'];
+												$sql1 .= " limit 8";
+												$objQuery1 = mysql_query($sql1);
+												
+												//echo $sql1;
+
+												while ($row1 = mysql_fetch_array($objQuery1)) {
+												
+													echo "<div class='col-md-3 col-sm-3'>";
+													echo "	<div class='people_box_2'>
+															
+															<div class='text-center'>
+															<a href='people_detail.php?Id=".$row1['people_id']."'>
+																<img class='img-responsive img-hover' src='".$row1['images']."' alt='' style='height: 250px;width: 100%'>
+															</a> 
+															<br clear='all'>
+															<h5><span class='th'>".$row1['title']."</span>
+															   <span class='en'>".$row1['title_en']."</span></h5>
+															</div>
+															
+															";
+												
+													echo "</div>";
+													echo "</div>";
+												}
+											
+											echo "</div>
+										</div>
+									</div>";
+									
+								}
+									
+								
+								
+								
+
+						?>
 				
-				?>
+				
+			
+				</div>			
+			</div>
 			</div>		
         </div>
         <!-- /.row -->

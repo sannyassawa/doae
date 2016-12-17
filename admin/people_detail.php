@@ -14,7 +14,7 @@ $row = mysql_fetch_array($objQuery);
 				<ol class="breadcrumb">
                     <li><a href="index.php">หน้าหลัก</a>
                     </li>
-                    <li><a href="people.php">ยุวชนเกษตรดีเด่น</a></li>
+                    <li><a href="people_cat.php">บุคลากรดีเด่นด้านการเกษตร</a></li>
 					
                 </ol>
 				<div class='adminDiv text-right'>	
@@ -35,7 +35,7 @@ $row = mysql_fetch_array($objQuery);
 				<p class="downloadBox">
 				
 					<? 
-					$sql1 = "SELECT * FROM t_people_file where active = 1 AND people_Id = ".$_GET['id'];
+					$sql1 = "SELECT * FROM t_people_file where active = 1 AND people_Id = ".$_GET['Id'];
 					//echo $sql1;
 					$objQuery1 = mysql_query($sql1);
 					while ($row1 = mysql_fetch_array($objQuery1)) {

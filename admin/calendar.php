@@ -43,11 +43,11 @@ include('header.php');
 					</form>
 					<?
 						$datemm = date("Y-m");
-						//echo $datemm;
-					
+						$dateda =  date("Y-m-d" );
+						$dateha = $dateda ." 00:00:00";
 						$sql = " select event_id,title,title_en, DATE_FORMAT(`start`,'%d/%m/%Y') as `start` from t_event";
 								 if($startDate == ""){
-									 
+									 $sql .= " where `start` > '".$dateha."' ";
 								 }else {
 									 $sql .= " where `start` BETWEEN '".$startDate." 00:00:00' and '".$endDate." 23:59:59'";
 								 }
@@ -70,7 +70,7 @@ include('header.php');
 													<a href='form_event.php?event_id=".$row['event_id']."' class='btn btn-info btn-xs'><i class='fa fa-pencil-square-o'></i> แก้ไข</a>";
 														
 																				
-													echo " <a href='#' class='btn btn-danger btn-xs' onclick='cmdDelCar(".$row['event_id'].")'><i class='fa fa-trash-o'></i> ลบ</a>
+													echo " <a href='#' class='btn btn-danger btn-xs' onclick='cmdDel(".$row['event_id'].")'><i class='fa fa-trash-o'></i> ลบ</a>
 													</div>						
 														";
 										echo "		</td>
@@ -92,12 +92,12 @@ include('header.php');
 include('footer.php');
 
 ?>
-<script type="text/javascript" src="../js/fullcalendar-2.1.1/lib/moment.min.js"></script>  
-<script type="text/javascript" src="../js/fullcalendar-2.1.1/fullcalendar.min.js"></script>  
-<script type="text/javascript" src="../js/fullcalendar-2.1.1/lang/th.js"></script>  
-<script type="text/javascript" src="../script.js"></script>
-<link href='../css/fullcalendar.css' rel='stylesheet' />
-<link href='../css/fullcalendar.print.css' rel='stylesheet' media='print' />
+<script type="text/javascript" src="js/fullcalendar-2.1.1/lib/moment.min.js"></script>  
+<script type="text/javascript" src="js/fullcalendar-2.1.1/fullcalendar.min.js"></script>  
+<script type="text/javascript" src="js/fullcalendar-2.1.1/lang/th.js"></script>  
+<script type="text/javascript" src="script.js"></script>
+<link href='css/fullcalendar.css' rel='stylesheet' />
+<link href='css/fullcalendar.print.css' rel='stylesheet' media='print' />
 
 		<link rel="stylesheet" media="all" type="text/css" href="calendar/jquery-ui.css" />
 		<link rel="stylesheet" media="all" type="text/css" href="calendar/jquery-ui-timepicker-addon.css" />
@@ -105,9 +105,9 @@ include('footer.php');
 		<script type="text/javascript" src="calendar/jquery-ui-timepicker-addon.js"></script>
 		<script type="text/javascript" src="calendar/jquery-ui-sliderAccess.js"></script>
 		
-
-<script type="text/javascript">
-$(function(){  
+		
+		<script>
+		$(function(){  
   
     $('#calendar').fullCalendar({  
         header: {  
@@ -116,7 +116,7 @@ $(function(){
             right: 'month,agendaWeek,agendaDay',  
         },    
         events: {  
-            url: '../data_events.php',  
+            url: 'data_events.php?gData=1',  
             error: function() {  
   
             }  
@@ -136,6 +136,13 @@ $(function(){
 		dateFormat: 'yy-mm-dd',
 		numberOfMonths: 1,
 	});
+
+});
+		</script>
+
+	
+
+<script type="text/javascript">
 
 function cmdNew(){
 

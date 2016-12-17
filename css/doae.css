@@ -648,7 +648,7 @@ hr {
 .detailGall {
 	padding:5px;
 }
-.detailGall:nth-child(even) {background: #f9f8f8}
+.detailGall:nth-child(even) {background: #e6e5e5}
 .detailGall:nth-child(odd) {background: #fff}
 .detailGall td {
 	
@@ -683,4 +683,15 @@ hr {
 }
 .fc-title {
 	font-size:14px;
+}
+
+.boxPeople .panel-heading  {    
+	background: #3a7f15 ;
+    color: #ffffff;
+}
+
+.people_box_2 {
+	background: #f3f0f0;
+    padding: 15px;
+	
 }

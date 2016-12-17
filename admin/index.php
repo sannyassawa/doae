@@ -145,7 +145,7 @@ include('header.php');
         <!-- /.row -->
 
 		<!-- article -->
-		<div class="row text-center">
+		<div class="row text-center" >
 			<?php
 				$sql = "SELECT * FROM t_article_cat where active = 1 ORDER BY sort_order ASC";
 				$objQuery = mysql_query($sql);
@@ -154,7 +154,7 @@ include('header.php');
             $i=1;
 
 					while ($row = mysql_fetch_array($objQuery)) {
-					echo "<div class='col-md-2 col-sm-6 text-center'>
+					echo "<div class='col-md-2 col-sm-6 text-center'style=' width: 19.666667%;'>
 							<div class='article_box_index'>";
 
 							echo "<a href='article_sub.php?Cat=".$row['cat_article_id']."'>";
@@ -498,16 +498,21 @@ include('header.php');
 					</form>
 					<?
 						$datemm = date("Y-m");
+						$dateda =  date("Y-m-d" );
+						$dateha = $dateda ." 00:00:00";
 						//echo $datemm;
 					
 						$sql = " select event_id,title,title_en, DATE_FORMAT(`start`,'%d/%m/%Y') as `start` from t_event";
 								 if($startDate == ""){
-									 
+									 $sql .= " where `start` > '".$dateha."' ";
 								 }else {
 									 $sql .= " where `start` BETWEEN '".$startDate." 00:00:00' and '".$endDate." 23:59:59'";
 								 }
 							
 							//echo $sql;
+							
+							
+						
 								$objQuery = mysql_query($sql);
 								echo "<table style='width: 100%;'>";
 								
@@ -546,54 +551,109 @@ include('header.php');
 		<!-- ยุวชนเกษตรดีเด่น -->
         <div class="row">
          
-				<h2 class="page-header"><span class="th">เกษตรกรดีเด่น</span><span class="en">เกษตรกรดีเด่น</span></h2>
+				<h2 class="page-header"><span class="th">บุคลากรดีเด่นด้านการเกษตร</span><span class="en">บุคลากรดีเด่นด้านการเกษตร</span></h2>
 				<hr class='border' />
 				<p class="text-right">
-					<a href="people.php" style="float: right;margin-top: -50px;">
+					<a href="people_cat.php" style="float: right;margin-top: -50px;">
 					<span class="en">ดูทั้งหมด</span>
 					<span class="th">ดูทั้งหมด</span>
 					</a>
 				</p>
-           
+				
            
                 <div class="row">
-					<?
-					$sql = "select * from t_people where active = 1 
-							order by people_id DESC limit 4 ";
-					//echo $sql;
-					$objQuery = mysql_query($sql);
-						echo "<div class='carousel-inner'>";
-							while ($row = mysql_fetch_array($objQuery)) {
-								echo "<div class='col-md-3'>
-											<div  class='adminDiv text-right'>
+					<div class="col-md-12">
+					<div class='boxPeople'>
+					<!-- begin panel group -->
+					<div class="panel-group" id="accordion" role="tablist" aria-multiselectable="true">
+						
+						<?php
+							$sql = "SELECT * FROM t_people_cat WHERE active = 1 ";
+							
+							$objQuery = mysql_query($sql);
+								while ($row = mysql_fetch_array($objQuery)) {
+									echo "<div class='panel panel-default'>
+										<span class='side-tab' data-target='#tab".$row['cat_people_id']."' data-toggle='tab' role='tab' aria-expanded='false'>
+											<div class='panel-heading' role='tab' id='headingOne'data-toggle='collapse' data-parent='#accordion' href='#collapse".$row['cat_people_id']."' aria-expanded='true' aria-controls='collapse".$row['cat_people_id']."'>
+												<h4 class='panel-title'><i class='fa fa-chevron-down' aria-hidden='true'></i> <span class='en'>".$row['name_en']."</span><span class='th'>".$row['name']."</span>";
+												
+												
+												
+									echo"	</div>	</h4>
+												
 											
-
-												<a href='form_people.php?people_id=".$row['people_id']."' class='btn btn-info btn-xs'><i class='fa fa-pencil-square-o'></i> แก้ไข</a>
-												";
-												if($row['active'] == 0){
-													echo " <a href='#' class='btn btn-success btn-xs' onclick='cmdShowPP(".$row['people_id'].")'><i class='fa fa-minus-square-o'></i> แสดง</a>";
-												}else{
-													echo " <a href='#' class='btn btn-warning btn-xs' onclick='cmdHiddenPP(".$row['people_id'].")'><i class='fa fa-minus-square-o'></i> ซ่อน</a>";
-												}
-																		
-													echo " <a href='#' class='btn btn-danger btn-xs' onclick='cmdDelPP(".$row['people_id'].")'><i class='fa fa-trash-o'></i> ลบ</a>
-																	
-												";
-									echo "</div>
-										<div class='text-center'>
-										<a href='people_detail.php?Id=".$row['people_id']."'>
-											<img class='img-responsive img-hover' src='../".$row['images']."' alt='' style='height: 275px;width: 100%'>
-										</a> 
-										<br clear='all'>
-										<h5><span class='th'>".$row['title']."</span>
-										   <span class='en'>".$row['title_en']."</span></h5>
-										</div>
+										</span>";
 										
-									  </div>";
-							}
-					echo "</div>";
+										if($row['cat_people_id'] == 1){
+											echo "<div id='collapse".$row['cat_people_id']."' class='panel-collapse collapse in' role='tabpanel' aria-labelledby='heading".$row['cat_people_id']."'>";
+										}else{
+											echo "<div id='collapse".$row['cat_people_id']."' class='panel-collapse collapse' role='tabpanel' aria-labelledby='heading".$row['cat_people_id']."'>";
+										}
+										
+										
+										
+									echo	"<div class='panel-body'>";
+												$sql1 = "SELECT * FROM t_people where active = 1 and";
+													
+												$sql1 .= " cat_people_id =".$row['cat_people_id'];
+												$sql1 .= " limit 8";
+											
+												$objQuery1 = mysql_query($sql1);
+												
+												//echo $sql1;
+
+												while ($row1 = mysql_fetch_array($objQuery1)) {
+												
+													echo "<div class='col-md-3 col-sm-3'>";
+													echo "	<div class='people_box_2'>
+															
+															<div class='text-center'>
+															<a href='people_detail.php?Id=".$row1['people_id']."'>
+																<img class='img-responsive img-hover' src='../".$row1['images']."' alt='' style='height: 250px;width: 100%'>
+															</a> 
+															<br clear='all'>
+															<h5><span class='th'>".$row1['title']."</span>
+															   <span class='en'>".$row1['title_en']."</span></h5>
+															</div>
+															
+															";
+													echo "
+														<br clare='all'>
+														<br clare='all'>";
+													echo "<div class='adminDiv'>
+															<a href='form_people.php?people_id=".$row1['people_id']."' class='btn btn-info btn-xs ' ><i class='fa fa-pencil-square-o'></i> แก้ไข</a>";
+													if($row1['active'] == 0){
+														echo " <a href='#' class='btn btn-success btn-xs' onclick='cmdShowPP(".$row1['people_id'].")'><i class='fa fa-minus-square-o'></i> แสดง</a>";
+													}else{
+														echo " <a href='#' class='btn btn-warning btn-xs' onclick='cmdHiddenPP(".$row1['people_id'].")'><i class='fa fa-minus-square-o'></i> ซ่อน</a>";
+													}
+
+													echo "  
+															 <a href='#' onclick='cmdDelPP(".$row1['people_id'].")' class='btn btn-danger btn-xs'><i class='fa fa-trash-o'></i> ลบ</a>
+														</div>";
+
+													echo	"</div>";
+												
+													echo "</div>";
+												}
+											
+											echo "</div>
+										</div>
+									</div>";
+									
+								}
+									
+								
+								
+								
+
+						?>
 				
-				?>
+				
+			
+				</div>			
+			</div>
+	
 			</div>		
         </div>
         <!-- /.row -->
@@ -699,6 +759,7 @@ include('header.php');
 					?>
 				
 			</div>
+			</div>
 		</div>
 			
 		
@@ -709,6 +770,437 @@ include('header.php');
 	
 <input type="hidden" name="user_id" id="user_id" value="<?=$_SESSION['userid'] ?>">
 <input type="hidden" name="ID" id="ID" value="0"> 	
+
+<? include('footer.php'); ?>
+<script type="text/javascript" src="js/fullcalendar-2.1.1/lib/moment.min.js"></script>  
+<script type="text/javascript" src="js/fullcalendar-2.1.1/fullcalendar.min.js"></script>  
+<script type="text/javascript" src="js/fullcalendar-2.1.1/lang/th.js"></script>  
+<script type="text/javascript" src="script.js"></script>
+<link href='css/fullcalendar.css' rel='stylesheet' />
+<link href='css/fullcalendar.print.css' rel='stylesheet' media='print' />
+
+		<link rel="stylesheet" media="all" type="text/css" href="calendar/jquery-ui.css" />
+		<link rel="stylesheet" media="all" type="text/css" href="calendar/jquery-ui-timepicker-addon.css" />
+		<script type="text/javascript" src="calendar/jquery-ui.min.js"></script>
+		<script type="text/javascript" src="calendar/jquery-ui-timepicker-addon.js"></script>
+		<script type="text/javascript" src="calendar/jquery-ui-sliderAccess.js"></script>
+		
+		
+		<script>
+		$(function(){  
+  
+    $('#calendar').fullCalendar({  
+        header: {  
+            left: 'prev,next today',    
+            center: 'title',  
+            right: 'month,agendaWeek,agendaDay',  
+        },    
+        events: {  
+            url: 'data_events.php?gData=1',  
+            error: function() {  
+  
+            }  
+        },      
+        eventLimit:true,  
+        lang: 'th'  
+    });  
+       
+}); 
+	$(function(){
+
+	$("#startDate").datepicker({
+		dateFormat: 'yy-mm-dd',
+		numberOfMonths: 1,
+	});
+	$("#endDate").datepicker({
+		dateFormat: 'yy-mm-dd',
+		numberOfMonths: 1,
+	});
+
+});
+		</script>
+
+<script language="javascript">
+
+function cmdsave(){
+	var modal = document.getElementById('eventAdd');
+	var params = "n=" + Math.random();
+	params = params + "&" + $('#form1').serialize();
+	//alert($('#frmQ').serialize());
+	
+	$.ajax({
+		type: "POST",
+		url: "function/add_event.php",
+		data: params,
+		success: function(sxAjax){			
+			if (sxAjax.substr(0,9) == "Completed") {
+				//location.reload();
+				alert('บันทึกเรียบร้อยแล้ว');
+				modal.style.display = "none";
+				location.reload();	
+					
+			} else {
+
+				alert(sxAjax);
+			}	
+		}
+	});	
+	
+	//document.getElementById('button').disabled = true;
+}
+
+function cmdedit(){
+	var modal = document.getElementById('eventEdit');
+	var params = "n=" + Math.random();
+	params = params + "&" + $('#form1').serialize();
+	//alert($('#frmQ').serialize());
+	
+	$.ajax({
+		type: "POST",
+		url: "function/edit_event.php",
+		data: params,
+		success: function(sxAjax){			
+			if (sxAjax.substr(0,9) == "Completed") {
+				//location.reload();
+				alert('แก้ไขเรียบร้อยแล้ว');
+				modal.style.display = "none";		
+				location.reload();	
+					
+			} else {
+
+				alert(sxAjax);
+			}	
+		}
+	});	
+	
+	//document.getElementById('button').disabled = true;
+}
+
+function cmddelete(){
+	var modal = document.getElementById('eventEdit');
+	var params = "n=" + Math.random();
+	params = params + "&" + $('#form1').serialize();
+	//alert($('#frmQ').serialize());
+	
+	$.ajax({
+		type: "POST",
+		url: "function/delete_event.php",
+		data: params,
+		success: function(sxAjax){			
+			if (sxAjax.substr(0,9) == "Completed") {
+				//location.reload();
+				alert('ลบเรียบร้อยแล้ว');
+				modal.style.display = "none";		
+				location.reload();	
+					
+			} else {
+
+				alert(sxAjax);
+			}	
+		}
+	});	
+	
+	//document.getElementById('button').disabled = true;
+}
+
+
+
+//// Calendar
+
+function cmdNewCar(){
+
+	var params = "n=" + Math.random();
+	params = params + "&" + $('#user_id').serialize();
+    
+    //params = params + "&" + $('#Coll').serialize();
+	params = params + "&" + $('#user_id').serialize();
+
+	
+
+	$.ajax({
+		type: "POST",
+		url: "function/add_event.php",
+		data: params,
+		success: function(sxAjax){			
+			if (sxAjax.substr(0,9) == "Completed") {
+                document.location.href="form_event.php?"+"event_id=" + (sxAjax.substr(10)) ;
+
+			} else {
+				alert(sxAjax);
+			}	
+		}
+	});	
+
+
+}
+function cmdDelCar(ID){
+	//alert(ID);
+	if(confirm('  กรุณายืนยันการลบอีกครั้ง !!!  ')){
+		//return true;
+	}else{
+		return false;
+	}
+	
+	document.getElementById('ID').value = ID;
+	var params = "n=" + Math.random();
+
+    params = params + "&" + $('#ID').serialize();
+	params = params + "&" + $('#user_id').serialize();
+
+	
+
+	$.ajax({
+		type: "POST",
+		url: "function/del_event.php",
+		data: params,
+		success: function(sxAjax){			
+			if (sxAjax.substr(0,9) == "Completed") {
+				alert('ลบเรียบร้อยแล้ว')
+                location.reload();
+
+			} else {
+				alert(sxAjax);
+			}	
+		}
+	});	
+
+
+}
+
+
+//////// VDO ////////////////
+function cmdHiddenV(ID){
+	//alert(ID);
+	
+	document.getElementById('ID').value = ID;
+	var params = "n=" + Math.random();
+
+    params = params + "&" + $('#ID').serialize();
+	params = params + "&" + $('#user_id').serialize();
+
+	//alert(ID);
+
+	$.ajax({
+		type: "POST",
+		url: "function/hidden_vdo.php",
+		data: params,
+		success: function(sxAjax){			
+			if (sxAjax.substr(0,9) == "Completed") {
+				alert('ถูกซ่อนเรียบร้อยแล้ว')
+                location.reload();
+
+			} else {
+				alert(sxAjax);
+			}	
+		}
+	});	
+
+
+}
+function cmdShowV(ID){
+	//alert(ID);
+	
+	document.getElementById('ID').value = ID;
+	var params = "n=" + Math.random();
+
+    params = params + "&" + $('#ID').serialize();
+	params = params + "&" + $('#user_id').serialize();
+
+	
+
+	$.ajax({
+		type: "POST",
+		url: "function/show_vdo.php",
+		data: params,
+		success: function(sxAjax){			
+			if (sxAjax.substr(0,9) == "Completed") {
+				alert('ถูกแสดงผลเรียบร้อยแล้ว')
+                location.reload();
+
+			} else {
+				alert(sxAjax);
+			}	
+		}
+	});	
+
+
+}
+
+
+function cmdDelV(ID){
+	//alert(ID);
+	if(confirm('  กรุณายืนยันการลบอีกครั้ง !!!  ')){
+		//return true;
+	}else{
+		return false;
+	}
+	
+	document.getElementById('ID').value = ID;
+	var params = "n=" + Math.random();
+
+    params = params + "&" + $('#ID').serialize();
+	params = params + "&" + $('#user_id').serialize();
+
+	
+
+	$.ajax({
+		type: "POST",
+		url: "function/del_vdo.php",
+		data: params,
+		success: function(sxAjax){			
+			if (sxAjax.substr(0,9) == "Completed") {
+				alert('ลบเรียบร้อยแล้ว')
+                location.reload();
+
+			} else {
+				alert(sxAjax);
+			}	
+		}
+	});	
+
+
+}
+
+
+function left(order){
+     // alert(order);
+     $.ajax({
+     type: "POST",
+     url: "function/updatesortorder.php",
+     data:  { order : order, type : 1, table : "t_article_cat" },
+     success: function(sxAjax){
+			alert(sxAjax)
+			location.reload();
+         }
+     });
+}
+
+function right(order){
+	
+    $.ajax({
+		type: "POST",
+        url: "function/updatesortorder.php",
+        data:  { order : order, type : 2, table : "t_article_cat" },
+        success: function(sxAjax){
+				alert(sxAjax) 
+				location.reload();
+
+		}
+    });
+}
+
+
+
+function upVdo(order){
+	//alert(order);
+    $.ajax({
+        type: "POST",
+        url: "function/updatesortorder.php",
+        data:  { order : order, type : 1, table : "t_vdo" },
+        success: function(sxAjax){
+            if (sxAjax.substr(0,9) == "Completed") {
+
+                location.reload();
+
+            } else {
+                alert(sxAjax);
+            }
+        }
+    });
+
+
+}
+function downVdo(order){
+
+    $.ajax({
+        type: "POST",
+        url: "function/updatesortorder.php",
+        data:  { order : order, type : 0, table : "t_vdo" },
+        success: function(sxAjax){
+            if (sxAjax.substr(0,9) == "Completed") {
+
+                location.reload();
+
+            } else {
+                alert(sxAjax);
+            }
+        }
+    });
+
+
+}
+
+
+
+
+function upNews(order){
+	//alert(order);
+    $.ajax({
+        type: "POST",
+        url: "function/updatesortorder.php",
+        data:  { order : order, type : 1, table : "t_news" },
+        success: function(sxAjax){
+            if (sxAjax.substr(0,9) == "Completed") {
+
+                location.reload();
+
+            } else {
+                alert(sxAjax);
+            }
+        }
+    });
+
+
+}
+function downNews(order){
+
+    $.ajax({
+        type: "POST",
+        url: "function/updatesortorder.php",
+        data:  { order : order, type : 0, table : "t_news" },
+        success: function(sxAjax){
+            if (sxAjax.substr(0,9) == "Completed") {
+
+                location.reload();
+
+            } else {
+                alert(sxAjax);
+            }
+        }
+    });
+
+
+}
+
+function bannerleft(order){
+    // alert(order);
+    $.ajax({
+        type: "POST",
+        url: "function/updatesortorder.php",
+        data:  { order : order, type : 2, table : "t_gallery" },
+        success: function(sxAjax){
+            alert(sxAjax)
+            location.reload();
+        }
+    });
+}
+
+function left(order){
+    // alert(order);
+    $.ajax({
+        type: "POST",
+        url: "function/updatesortorder.php",
+        data:  { order : order, type : 1, table : "t_article_cat" },
+        success: function(sxAjax){
+            alert(sxAjax)
+            location.reload();
+        }
+    });
+}
+
+
+</script>
+
 <script type="text/javascript">
 function cmdHiddenKM(ID){
 	//alert(ID);
@@ -1399,434 +1891,3 @@ function cmdDelPR(ID){
 }
 
 </script>
-<? include('footer.php'); ?>
-<? include('footer.php') ?>
-     
-<script type="text/javascript" src="../js/fullcalendar-2.1.1/lib/moment.min.js"></script>  
-<script type="text/javascript" src="../js/fullcalendar-2.1.1/fullcalendar.min.js"></script>  
-<script type="text/javascript" src="../js/fullcalendar-2.1.1/lang/th.js"></script>  
-<script type="text/javascript" src="../script.js"></script>
-<link href='css/fullcalendar.css' rel='stylesheet' />
-<link href='css/fullcalendar.print.css' rel='stylesheet' media='print' />
-
-		<link rel="stylesheet" media="all" type="text/css" href="calendar/jquery-ui.css" />
-		<link rel="stylesheet" media="all" type="text/css" href="calendar/jquery-ui-timepicker-addon.css" />
-		<script type="text/javascript" src="calendar/jquery-ui.min.js"></script>
-		<script type="text/javascript" src="calendar/jquery-ui-timepicker-addon.js"></script>
-		<script type="text/javascript" src="calendar/jquery-ui-sliderAccess.js"></script>
-		
-
-<script language="javascript">
-		$(function(){  
-  
-    $('#calendar').fullCalendar({  
-        header: {  
-            left: 'prev,next today',    
-            center: 'title',  
-            right: 'month,agendaWeek,agendaDay',  
-        },    
-        events: {  
-            url: 'data_events.php',  
-            error: function() {  
-  
-            }  
-        },      
-        eventLimit:true,  
-        lang: 'th'  
-    });  
-       
-}); 
-	$(function(){
-
-	$("#startDate").datepicker({
-		dateFormat: 'yy-mm-dd',
-		numberOfMonths: 1,
-	});
-	$("#endDate").datepicker({
-		dateFormat: 'yy-mm-dd',
-		numberOfMonths: 1,
-	});
-
-</script>
-
-<script language="javascript">
-
-function cmdsave(){
-	var modal = document.getElementById('eventAdd');
-	var params = "n=" + Math.random();
-	params = params + "&" + $('#form1').serialize();
-	//alert($('#frmQ').serialize());
-	
-	$.ajax({
-		type: "POST",
-		url: "function/add_event.php",
-		data: params,
-		success: function(sxAjax){			
-			if (sxAjax.substr(0,9) == "Completed") {
-				//location.reload();
-				alert('บันทึกเรียบร้อยแล้ว');
-				modal.style.display = "none";
-				location.reload();	
-					
-			} else {
-
-				alert(sxAjax);
-			}	
-		}
-	});	
-	
-	//document.getElementById('button').disabled = true;
-}
-
-function cmdedit(){
-	var modal = document.getElementById('eventEdit');
-	var params = "n=" + Math.random();
-	params = params + "&" + $('#form1').serialize();
-	//alert($('#frmQ').serialize());
-	
-	$.ajax({
-		type: "POST",
-		url: "function/edit_event.php",
-		data: params,
-		success: function(sxAjax){			
-			if (sxAjax.substr(0,9) == "Completed") {
-				//location.reload();
-				alert('แก้ไขเรียบร้อยแล้ว');
-				modal.style.display = "none";		
-				location.reload();	
-					
-			} else {
-
-				alert(sxAjax);
-			}	
-		}
-	});	
-	
-	//document.getElementById('button').disabled = true;
-}
-
-function cmddelete(){
-	var modal = document.getElementById('eventEdit');
-	var params = "n=" + Math.random();
-	params = params + "&" + $('#form1').serialize();
-	//alert($('#frmQ').serialize());
-	
-	$.ajax({
-		type: "POST",
-		url: "function/delete_event.php",
-		data: params,
-		success: function(sxAjax){			
-			if (sxAjax.substr(0,9) == "Completed") {
-				//location.reload();
-				alert('ลบเรียบร้อยแล้ว');
-				modal.style.display = "none";		
-				location.reload();	
-					
-			} else {
-
-				alert(sxAjax);
-			}	
-		}
-	});	
-	
-	//document.getElementById('button').disabled = true;
-}
-
-
-
-//// Calendar
-
-function cmdNewCar(){
-
-	var params = "n=" + Math.random();
-	params = params + "&" + $('#user_id').serialize();
-    
-    //params = params + "&" + $('#Coll').serialize();
-	params = params + "&" + $('#user_id').serialize();
-
-	
-
-	$.ajax({
-		type: "POST",
-		url: "function/add_event.php",
-		data: params,
-		success: function(sxAjax){			
-			if (sxAjax.substr(0,9) == "Completed") {
-                document.location.href="form_event.php?"+"event_id=" + (sxAjax.substr(10)) ;
-
-			} else {
-				alert(sxAjax);
-			}	
-		}
-	});	
-
-
-}
-function cmdDelCar(ID){
-	//alert(ID);
-	if(confirm('  กรุณายืนยันการลบอีกครั้ง !!!  ')){
-		//return true;
-	}else{
-		return false;
-	}
-	
-	document.getElementById('ID').value = ID;
-	var params = "n=" + Math.random();
-
-    params = params + "&" + $('#ID').serialize();
-	params = params + "&" + $('#user_id').serialize();
-
-	
-
-	$.ajax({
-		type: "POST",
-		url: "function/del_event.php",
-		data: params,
-		success: function(sxAjax){			
-			if (sxAjax.substr(0,9) == "Completed") {
-				alert('ลบเรียบร้อยแล้ว')
-                location.reload();
-
-			} else {
-				alert(sxAjax);
-			}	
-		}
-	});	
-
-
-}
-
-
-//////// VDO ////////////////
-function cmdHiddenV(ID){
-	//alert(ID);
-	
-	document.getElementById('ID').value = ID;
-	var params = "n=" + Math.random();
-
-    params = params + "&" + $('#ID').serialize();
-	params = params + "&" + $('#user_id').serialize();
-
-	//alert(ID);
-
-	$.ajax({
-		type: "POST",
-		url: "function/hidden_vdo.php",
-		data: params,
-		success: function(sxAjax){			
-			if (sxAjax.substr(0,9) == "Completed") {
-				alert('ถูกซ่อนเรียบร้อยแล้ว')
-                location.reload();
-
-			} else {
-				alert(sxAjax);
-			}	
-		}
-	});	
-
-
-}
-function cmdShowV(ID){
-	//alert(ID);
-	
-	document.getElementById('ID').value = ID;
-	var params = "n=" + Math.random();
-
-    params = params + "&" + $('#ID').serialize();
-	params = params + "&" + $('#user_id').serialize();
-
-	
-
-	$.ajax({
-		type: "POST",
-		url: "function/show_vdo.php",
-		data: params,
-		success: function(sxAjax){			
-			if (sxAjax.substr(0,9) == "Completed") {
-				alert('ถูกแสดงผลเรียบร้อยแล้ว')
-                location.reload();
-
-			} else {
-				alert(sxAjax);
-			}	
-		}
-	});	
-
-
-}
-
-
-function cmdDelV(ID){
-	//alert(ID);
-	if(confirm('  กรุณายืนยันการลบอีกครั้ง !!!  ')){
-		//return true;
-	}else{
-		return false;
-	}
-	
-	document.getElementById('ID').value = ID;
-	var params = "n=" + Math.random();
-
-    params = params + "&" + $('#ID').serialize();
-	params = params + "&" + $('#user_id').serialize();
-
-	
-
-	$.ajax({
-		type: "POST",
-		url: "function/del_vdo.php",
-		data: params,
-		success: function(sxAjax){			
-			if (sxAjax.substr(0,9) == "Completed") {
-				alert('ลบเรียบร้อยแล้ว')
-                location.reload();
-
-			} else {
-				alert(sxAjax);
-			}	
-		}
-	});	
-
-
-}
-
-
-function left(order){
-     // alert(order);
-     $.ajax({
-     type: "POST",
-     url: "function/updatesortorder.php",
-     data:  { order : order, type : 1, table : "t_article_cat" },
-     success: function(sxAjax){
-			alert(sxAjax)
-			location.reload();
-         }
-     });
-}
-
-function right(order){
-	
-    $.ajax({
-		type: "POST",
-        url: "function/updatesortorder.php",
-        data:  { order : order, type : 2, table : "t_article_cat" },
-        success: function(sxAjax){
-				alert(sxAjax) 
-				location.reload();
-
-		}
-    });
-}
-
-
-
-function upVdo(order){
-	//alert(order);
-    $.ajax({
-        type: "POST",
-        url: "function/updatesortorder.php",
-        data:  { order : order, type : 1, table : "t_vdo" },
-        success: function(sxAjax){
-            if (sxAjax.substr(0,9) == "Completed") {
-
-                location.reload();
-
-            } else {
-                alert(sxAjax);
-            }
-        }
-    });
-
-
-}
-function downVdo(order){
-
-    $.ajax({
-        type: "POST",
-        url: "function/updatesortorder.php",
-        data:  { order : order, type : 0, table : "t_vdo" },
-        success: function(sxAjax){
-            if (sxAjax.substr(0,9) == "Completed") {
-
-                location.reload();
-
-            } else {
-                alert(sxAjax);
-            }
-        }
-    });
-
-
-}
-
-
-
-
-function upNews(order){
-	//alert(order);
-    $.ajax({
-        type: "POST",
-        url: "function/updatesortorder.php",
-        data:  { order : order, type : 1, table : "t_news" },
-        success: function(sxAjax){
-            if (sxAjax.substr(0,9) == "Completed") {
-
-                location.reload();
-
-            } else {
-                alert(sxAjax);
-            }
-        }
-    });
-
-
-}
-function downNews(order){
-
-    $.ajax({
-        type: "POST",
-        url: "function/updatesortorder.php",
-        data:  { order : order, type : 0, table : "t_news" },
-        success: function(sxAjax){
-            if (sxAjax.substr(0,9) == "Completed") {
-
-                location.reload();
-
-            } else {
-                alert(sxAjax);
-            }
-        }
-    });
-
-
-}
-
-function bannerleft(order){
-    // alert(order);
-    $.ajax({
-        type: "POST",
-        url: "function/updatesortorder.php",
-        data:  { order : order, type : 2, table : "t_gallery" },
-        success: function(sxAjax){
-            alert(sxAjax)
-            location.reload();
-        }
-    });
-}
-
-function left(order){
-    // alert(order);
-    $.ajax({
-        type: "POST",
-        url: "function/updatesortorder.php",
-        data:  { order : order, type : 1, table : "t_article_cat" },
-        success: function(sxAjax){
-            alert(sxAjax)
-            location.reload();
-        }
-    });
-}
-
-
-</script>
-

@@ -29,12 +29,8 @@
 	
 		<div class="row">
 			<?php
-						$sql = "select * from t_gallery  ";
-						if($_SESSION['userid'] == ""){
-								$sql .= "  where active = 1 ";
-						}else{
-								$sql .= " ";
-						}
+						$sql = "select * from t_gallery where active = 1 ";
+						
 						$sql .= "order by gallery_id DESC ";
 					
 					

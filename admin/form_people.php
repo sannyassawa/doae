@@ -145,7 +145,9 @@ if(isset($_POST) and $_SERVER['REQUEST_METHOD'] == "POST"){
                            <form id="frmNews" name="frmNews"  action="" method="POST" enctype="multipart/form-data">
 						   <input type="hidden" name="people_id" id="people_id" value="<?=$_GET['people_id'] ?>">
 						   <input type="hidden" name="user_id" id="user_id" value="<?=$_SESSION['userid'] ?>">
+                               <input type="hidden" name="cat_people_id" id="cat_people_id" value="<?=$_GET['cat_people_id'] ?>">
 								<div class="form-group">
+
                                     <label>รูปภาพหน้าปก</label>
                                     <p><img src="../<?=$row['images'] ?>" height="250" width="220" /></p>
 									<input class="input-group" type="file" name="images[]" id="images" accept="image/*" />
@@ -245,7 +247,7 @@ if(isset($_POST) and $_SERVER['REQUEST_METHOD'] == "POST"){
 <script type="text/javascript">
 function cmdCancel(){
 
-	window.location.href = "people.php";
+	window.location.href = "people_cat.php";
 
 }
 
@@ -275,7 +277,7 @@ function cmdSave(){
 		success: function(sxAjax){			
 			if (sxAjax.substr(0,9) == "Completed") {
 				alert('บันทึกเรียบร้อยแล้ว')
-				window.location.href = "people.php";
+				window.location.href = "people_cat.php";
 
 			} else {
 				alert(sxAjax);

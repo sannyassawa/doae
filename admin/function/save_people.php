@@ -24,7 +24,30 @@
 		
 			if($people_id == 0){
 				
-				//echo $sql;
+				$sql = " SELECT MAX(people_id) AS mns";
+			$sql .= " FROM t_people  ";
+			
+			if ($queryOK) {
+				if (!mysql_query($sql,$conn)) {
+					$queryOK = false;
+				}
+				else {
+					$result = mysql_query($sql, $conn);
+					$row = mysql_fetch_array($result);
+					$mns = $row['mns'];
+					$sort_order = $mns + 1;
+				}
+			}	
+			
+			
+		
+		
+		
+		
+			$sql = " INSERT ignore INTO t_people
+					 ( create_id, create_date, update_id,update_date,sort_order,active,cat_people_id,title,title_en,content,content_en) ";
+			$sql .= " VALUES ";
+			$sql .= "( $userid, now(), $userid,now(),$sort_order,1,$cat_people_id,$title,$title_en,$content,$content_en )";
 			
 
 				if ($queryOK) {

@@ -7,7 +7,7 @@
 
 	
 	$userid = intval($_POST['user_id']);
-	
+	$cat_people_id = intval($_POST['cat_people_id']);
 	
 	
 	
@@ -37,9 +37,9 @@
 		
 		
 			$sql = " INSERT ignore INTO t_people
-					 ( create_id, create_date, update_id,update_date,sort_order,active) ";
+					 ( create_id, create_date, update_id,update_date,sort_order,active,cat_people_id) ";
 			$sql .= " VALUES ";
-			$sql .= "( $userid, now(), $userid,now(),$sort_order,1 )";
+			$sql .= "( $userid, now(), $userid,now(),$sort_order,1,$cat_people_id )";
 			
 			
 		

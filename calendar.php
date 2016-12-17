@@ -27,11 +27,12 @@ include('header.php');
 					
 					<?
 						$datemm = date("Y-m");
-						//echo $datemm;
+						$dateda =  date("Y-m-d" );
+						$dateha = $dateda ." 00:00:00";
 					
 						$sql = " select event_id,title,title_en, DATE_FORMAT(`start`,'%d/%m/%Y') as `start` from t_event";
 								 if($startDate == ""){
-									 
+									 $sql .= " where `start` > '".$dateha."' ";
 								 }else {
 									 $sql .= " where `start` BETWEEN '".$startDate." 00:00:00' and '".$endDate." 23:59:59'";
 								 }

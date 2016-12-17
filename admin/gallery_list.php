@@ -123,7 +123,7 @@
 								</tr>
 								<tr>
 								  <td align='right' valign='middle'> หัวข้อภาษาอังกฤษ : </td>
-								  <td valign='top'><a href='gallery_detail.php?Id=".$row['gallery_id']."'>".$row['title_en']."</a></td>
+								  <td valign='middle'><a href='gallery_detail.php?Id=".$row['gallery_id']."'>".$row['title_en']."</a></td>
 								</tr>
 								<tr>
 								  <td align='right' valign='middle'>วันที่กิจกรรม :</td>
