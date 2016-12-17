@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: localhost:3306
--- Generation Time: Dec 17, 2016 at 07:39 AM
+-- Generation Time: Dec 17, 2016 at 08:28 AM
 -- Server version: 5.6.33
 -- PHP Version: 5.6.27
 
@@ -110,10 +110,10 @@ CREATE TABLE `level` (
 -- --------------------------------------------------------
 
 --
--- Table structure for table `tbl_servey`
+-- Table structure for table `tbl_survey`
 --
 
-CREATE TABLE `tbl_servey` (
+CREATE TABLE `tbl_survey` (
   `id` int(12) NOT NULL,
   `title_th` text,
   `title_en` text,
@@ -124,13 +124,21 @@ CREATE TABLE `tbl_servey` (
   `update_date` datetime NOT NULL DEFAULT CURRENT_TIMESTAMP
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
+--
+-- Dumping data for table `tbl_survey`
+--
+
+INSERT INTO `tbl_survey` (`id`, `title_th`, `title_en`, `link`, `type`, `status`, `create_date`, `update_date`) VALUES
+(1, 'th', 'en', 'link', 1, 1, '2016-12-17 13:50:22', '2016-12-17 13:50:22'),
+(2, 'dsf', 'dsf', 'sdf', 1, 1, '2016-12-17 14:26:54', '2016-12-17 14:26:54');
+
 -- --------------------------------------------------------
 
 --
--- Table structure for table `tbl_servey_issue`
+-- Table structure for table `tbl_survey_issue`
 --
 
-CREATE TABLE `tbl_servey_issue` (
+CREATE TABLE `tbl_survey_issue` (
   `id` int(12) NOT NULL,
   `title_th` text,
   `status` int(1) DEFAULT NULL,
@@ -141,10 +149,10 @@ CREATE TABLE `tbl_servey_issue` (
 -- --------------------------------------------------------
 
 --
--- Table structure for table `tbl_servey_issue_sub`
+-- Table structure for table `tbl_survey_issue_sub`
 --
 
-CREATE TABLE `tbl_servey_issue_sub` (
+CREATE TABLE `tbl_survey_issue_sub` (
   `id` int(12) NOT NULL,
   `title_th` text,
   `status` int(1) DEFAULT NULL,
@@ -155,10 +163,10 @@ CREATE TABLE `tbl_servey_issue_sub` (
 -- --------------------------------------------------------
 
 --
--- Table structure for table `tbl_servey_sub`
+-- Table structure for table `tbl_survey_sub`
 --
 
-CREATE TABLE `tbl_servey_sub` (
+CREATE TABLE `tbl_survey_sub` (
   `id` int(12) NOT NULL,
   `title_th` text,
   `start_date` datetime DEFAULT NULL,

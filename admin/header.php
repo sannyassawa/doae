@@ -33,6 +33,7 @@
 
     <!-- Custom CSS -->
     <link href="../css/doae.css" rel="stylesheet">
+	<link rel="stylesheet" href="../admin/css/survey.css">
 
     <!-- Custom Fonts -->
     <link href="font-awesome/css/font-awesome.min.css" rel="stylesheet" type="text/css">
