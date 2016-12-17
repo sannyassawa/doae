@@ -33,9 +33,20 @@
   border-style: solid none;
   border-width: 1px 0;
   margin: 18px 0;" />
-
+<?php
+$tab["OnlinePoll"]["th"]="การสำรวจความคิดเห็นของประชาชน(Online Poll)";
+$tab["OnlinePoll"]["en"]="การสำรวจความคิดเห็นของประชาชน(Online Poll)";
+$link_tab["OnlinePoll"]["th"]="#";
+$link_tab["OnlinePoll"]["en"]="#";
+$tab["Topicservay"]["th"]="ประเด็นการสำรวจ";
+$tab["Topicservay"]["en"]="ประเด็นการสำรวจ";
+$link_tab["Topicservay"]["th"]="#";
+$link_tab["Topicservay"]["en"]="#";
+?>
 		<div class="row">
 			<div class="col-lg-12">
+				<?php
+				form_issue($tab,$link_tab);?>
 				<form action="#" method="POST">
 
 				<pre style="border: 0; background-color: transparent; " >
