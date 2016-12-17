@@ -23,7 +23,7 @@ function form_navigator($array_tab,$link,$addtext=null,$addlink=null){
 
 
     echo '</div>
-          <div class="col-lg-2"><a href="'.$addlink['th'].'">'.$addtext['th'].'</div>
+          <div class="col-lg-2"><a href="'.$addlink['th'].'">'.$addtext['th'].'</a></div>
         </div>
      </div>';
 
