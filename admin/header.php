@@ -68,6 +68,7 @@
         <script type="text/javascript" src="calendar/jquery-ui.min.js"></script>
         <script type="text/javascript" src="calendar/jquery-ui-timepicker-addon.js"></script>
 		<script type="text/javascript" src="calendar/jquery-ui-sliderAccess.js"></script>
+		<script type="text/javascript" src="js/jquery-validation/dist/jquery.validate.js"></script>
 		
 <script type="text/javascript">
 function resizeFont( object ) {
