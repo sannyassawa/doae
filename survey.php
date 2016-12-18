@@ -1,50 +1,67 @@
 <?php include('header.php'); ?>
+<?php include('admin/function/form_navigator.php'); ?>
+
+<?php
+
+$tab["nav1"]["th"]="ข้อมูลการติดต่อ";
+$tab["nav1"]["en"]="ข้อมูลการติดต่อ";
+$tab["nav2"]["th"]="แบบสำรวจ";
+$tab["nav2"]["en"]="แบบสำรวจ";
+
+$link_tab["nav1"]["th"]="contact.php";
+$link_tab["nav2"]["th"]="survey.php";
+
+?>
 
 
 <!-- Page Content -->
 <div class="container">
-		<div class="row">
-            <div class="col-lg-12">
-                <h1 class="page-header">
-					<span class="en">Online Survey</span><span class="th">แบบสำรวจ</span>
-				</h1>
-				
-                <ol class="breadcrumb">
-                   <li>
-						<span class="en"><a href="index.php">Home</a></span>
-						<span class="th"><a href="index.php">หน้าหลัก</a></span>
-                    </li>
-                    <li>
-						<span class="en"><a href="contact.php">ข้อมูลการติดต่อ</a></span>
-						<span class="th"><a href="contact.php">ข้อมูลการติดต่อ</a></span>
-					</li>
-                </ol>
-            </div>
-        </div>
-	
-		<div class="row">
-			<div class="col-lg-12">
-				<? $sql = " select * from t_survey   ";
-						
-							$objQuery = mysql_query($sql);
-				
-							while ($row = mysql_fetch_array($objQuery)) {
-								echo "<h4>";
-								
-									echo "<a href='question.php?survey_id=".$row['survey_id']."'>".$row['name']."</a></td>";
-						
-								
-									
-									
-								echo "</h4>";
-							
-							}
-						?>
-			</div>
-			
-        </div>
-</div>
 
+	<div class="row">
+		<?php  form_navigator($tab, $link_tab, $addtext, $addlink); ?>
+	</div>
+
+	<div class="row">
+		<table id="survey" class="table">
+			<?php
+			$sql = " select * from tbl_survey order by status desc, id desc ";
+			$objQuery = mysql_query($sql);
+			while ($row = mysql_fetch_array($objQuery)) {
+
+
+
+				echo "<tr>
+                        <td>
+                            <div class='row title-layout th'>
+                                <div class='col-lg-2 titlename'>หัวข้อ TH</div>
+                                <div class='col-lg-7'>".ActiveLink($row['title_th'], 'survey_sub.php?id='.$row['id'], $row['type'])."</div>
+                                <div class='col-lg-1'>".txActive($row['status'])."</div>
+                            </div>
+                            <div class='row title-layout en'>
+                                <div class='col-lg-2 titlename'>หัวข้อ EN</div>
+                                <div class='col-lg-7'>".ActiveLink($row['title_en'], 'survey_sub.php?id='.$row['id'], $row['type'])."</div>
+                            </div>";
+
+				if($row['type']==1):
+
+					echo    "<div class='row title-layout'>
+                                <div class='col-lg-2 titlename'>Link</div>
+                                <div class='col-lg-7'><a href='".$row['link']."' target='blank'>".$row['link']."</a></div>
+                            </div>";
+				endif;
+
+				echo
+                        "</td>
+                    </tr>";
+
+
+			}
+			?>
+
+		</table>
+
+	</div>
+</div>
 
 
 <? include('footer.php'); ?>

@@ -1,0 +1,10 @@
+#survey .titlename {
+    text-align: right;
+}
+#survey .title-layout{
+    padding-bottom: 10px;
+}
+
+#survey a, a:link, a:visited, a:hover, a:active{
+    font-size: medium;
+}

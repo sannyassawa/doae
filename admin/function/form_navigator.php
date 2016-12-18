@@ -33,4 +33,12 @@ function txActive($a){
     $active = ($a==1)?"<i class='fa fa-check-circle' aria-hidden='true'></i>":"<i class='fa fa-times-circle' aria-hidden='true'></i>";
     return $active;
 }
+
+function ActiveLink($text, $link, $type){
+    if($type==1){
+        return $text;
+    }else{
+        return "<a href='".$link."'>".$text."</a>";
+    }
+}
 ?>
