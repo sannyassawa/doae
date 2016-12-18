@@ -1,7 +1,6 @@
 <?php include('header.php'); ?>
-<?php include('function/form_issue.php'); ?>
+<?php include('function/form_navigator.php'); ?>
 
-<!-- Page Content -->
 
 <div class="container">
 	<?php
@@ -18,7 +17,7 @@
 	$link["OnlinePoll"]["th"]="#";
 	$link["OnlinePoll"]["en"]="#";
 
-	form_issue($array_tab,$link);
+	form_navigator($array_tab,$link);
 
 	?>
 
@@ -33,6 +32,7 @@
   border-style: solid none;
   border-width: 1px 0;
   margin: 18px 0;" />
+
 <?php
 $tab["OnlinePoll"]["th"]="การสำรวจความคิดเห็นของประชาชน(Online Poll)";
 $tab["OnlinePoll"]["en"]="การสำรวจความคิดเห็นของประชาชน(Online Poll)";
@@ -46,17 +46,37 @@ $link_tab["Topicservay"]["en"]="#";
 		<div class="row">
 			<div class="col-lg-12">
 				<?php
-				form_issue($tab,$link_tab);?>
-				<form action="#" method="POST">
+				form_navigator($tab,$link_tab);?>
 
-				<pre style="border: 0; background-color: transparent; " >
-					    หัวข้อประเด็น <input type="text" id="topic" style="width:50%"><br>
-					สถานะการแสดงผล <select name="type" id="status">
-    <option value="active">ใช้งาน</option>
-    <option value="non-active">ไม่ใช้งาน</option>
-  </select><br>
-					               <input type ='submit' id="Topic_survay" name="Topic_survay" value="บันทึก">
-					</pre>
+				<form action="#" method="POST">
+<?php
+
+ob_start("ob_gzhandler");
+
+
+header("Content-Type: text/html; charset=utf-8");
+
+
+
+$sql = " SELECT * ";
+$sql .= " FROM tbl_survey_issue_sub  where id = ".$_GET["id"];
+
+
+
+
+$result = mysql_query($sql);
+$result = mysql_fetch_array($result);
+echo '
+<pre style="border: 0; background-color: transparent; " >
+	หัวข้อประเด็น <input type="text" id="topic" value = "'.$result["title_th"].'"  style="width:50%"><br>
+สถานะการแสดงผล     <select name="type" id="status">
+    				<option value="active">ใช้งาน</option>
+  					<option value="non-active">ไม่ใช้งาน</option>
+ 					</select><br>
+				<input type ="submit" id="Topic_survay" name="Topic_survay" value="บันทึก"></pre>';
+
+?>
+
 
 					</form>
 			</div>
