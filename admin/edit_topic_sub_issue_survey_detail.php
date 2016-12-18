@@ -12,8 +12,8 @@
 	$array_tab["OnlinePoll"]["en"]="การสำรวจความคิดเห็นของประชาชน(Online Poll)";
 	$link["contactperson"]["th"]="contact.php";
 	$link["contactperson"]["en"]="contact.php";
-	$link["servay"]["th"]="#";
-	$link["servay"]["en"]="#";
+	$link["servay"]["th"]="survey.php";
+	$link["servay"]["en"]="survey.php";
 	$link["OnlinePoll"]["th"]="#";
 	$link["OnlinePoll"]["en"]="#";
 
@@ -36,17 +36,13 @@
 <?php
 $tab["OnlinePoll"]["th"]="การสำรวจความคิดเห็นของประชาชน(Online Poll)";
 $tab["OnlinePoll"]["en"]="การสำรวจความคิดเห็นของประชาชน(Online Poll)";
-$link_tab["OnlinePoll"]["th"]="#";
-$link_tab["OnlinePoll"]["en"]="#";
-$tab["Topicservay"]["th"]="ประเด็นการสำรวจ";
-$tab["Topicservay"]["en"]="ประเด็นการสำรวจ";
-$link_tab["Topicservay"]["th"]="#";
-$link_tab["Topicservay"]["en"]="#";
+$link_tab["OnlinePoll"]["th"]="survey_issue_sub_topic_list.php?id=".$result["id"];
+$link_tab["OnlinePoll"]["en"]="survey_issue_sub_topic_list.php?id=".$result["id"];
+
 ?>
 		<div class="row">
 			<div class="col-lg-12">
-				<?php
-				form_navigator($tab,$link_tab);?>
+
 
 				<form action="function/save_tbl_survey_issue_sub.php" method="POST">
 <?php
@@ -66,6 +62,11 @@ $sql .= " FROM tbl_survey_issue_sub  where id = ".$_GET["pkid"];
 
 $result = mysql_query($sql);
 $result = mysql_fetch_array($result);
+$tab["Topicservay"]["th"]=$result["title_th"];
+$tab["Topicservay"]["en"]=$result["title_th"];
+$link_tab["Topicservay"]["th"]="survey_issue_sub_topic_list.php?id=".$result["id"];;
+$link_tab["Topicservay"]["en"]="survey_issue_sub_topic_list.php?id=".$result["id"];;
+				form_navigator($tab,$link_tab);
 echo '
 <pre style="border: 0; background-color: transparent; " >
 	หัวข้อประเด็น <input type="text" name = "topic" id="topic" value = "'.$result["title_th"].'"  style="width:50%"><br>

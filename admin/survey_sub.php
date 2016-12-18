@@ -5,8 +5,8 @@
 
 <?php
     $sql = " select * from tbl_survey where id = '".$_GET['id']."'";
-    $query = mysql_query($sql);
-    $main = mysql_fetch_array($query);
+$query = mysql_query($sql);
+$main = mysql_fetch_array($query);
 
 
 $tab["nav1"]["th"]="ข้อมูลการติดต่อ";
@@ -49,12 +49,15 @@ $addlink["th"]="form_survey_sub.php?id_survey=".$main['id'];
             <?php
             $sql = " select * from tbl_survey_sub where id_survey = '".$main['id']."' order by status desc, id desc ";
             $objQuery = mysql_query($sql);
+           // $tab = http_build_query(array("tab" => $tab));
+            //$link = http_build_query(array("link" =>$link_tab));
+
             while ($row = mysql_fetch_array($objQuery)) {
 
 
 
                 echo "<tr>
-                        <td><a href='survey_issue_topic_list.php?id_survey_sub=".$row['id']."'>".$row['title_th']."</a></td>
+                        <td><a href='survey_issue_topic_list.php?id_survey_sub=".$row['id']."&".$tab."&".$link."'>".$row['title_th']."</a></td>
                         <td>".$row['start_date']." - ".$row['end_date']."</td>
                         <td>".$row['update_date']."</td>
                         <td>".txActive($row['status'])."</td>

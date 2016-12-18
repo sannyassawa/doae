@@ -10,12 +10,12 @@ $array_tab["servay"]["th"]="แบบสำรวจ";
 $array_tab["servay"]["en"]="แบบสำรวจ";
 $array_tab["OnlinePoll"]["th"]="การสำรวจความคิดเห็นของประชาชน(Online Poll)";
 $array_tab["OnlinePoll"]["en"]="การสำรวจความคิดเห็นของประชาชน(Online Poll)";
-$link["OnlinePoll"]["th"]="contact.php";
-$link["OnlinePoll"]["en"]="contact.php";
-$link["servay"]["th"]="#";
-$link["servay"]["en"]="#";
-$link["contactperson"]["th"]="#";
-$link["contactperson"]["en"]="#";
+$link["OnlinePoll"]["th"]="survey_issue_sub_topic_list.php?id=".$_GET["id"];
+$link["OnlinePoll"]["en"]="survey_issue_sub_topic_list.php?id=".$_GET["id"];
+$link["servay"]["th"]="survey.php";
+$link["servay"]["en"]="survey.php";
+$link["contactperson"]["th"]="contact.php";
+$link["contactperson"]["en"]="contact.php";
 
 form_navigator($array_tab,$link);
 
@@ -35,8 +35,8 @@ form_navigator($array_tab,$link);
 <?php
 $tab["OnlinePoll"]["th"]="การสำรวจความคิดเห็นของประชาชน(Online Poll)";
 $tab["OnlinePoll"]["en"]="การสำรวจความคิดเห็นของประชาชน(Online Poll)";
-$link_tab["OnlinePoll"]["th"]="#";
-$link_tab["OnlinePoll"]["en"]="#";
+$link_tab["OnlinePoll"]["th"]="survey_issue_sub_topic_list.php?id=".$_GET["id"];
+$link_tab["OnlinePoll"]["en"]="survey_issue_sub_topic_list.php?id=".$_GET["id"];
 $addtext["th"]="เพิ่ม";
 $addtext["en"]="เพิ่ม";
 $addlink["th"]="add_topic_sub_survey_issue.php?id_survey_issue=".$_GET["id"];
@@ -67,10 +67,11 @@ $sql .= " FROM tbl_survey_issue_sub  where  id_survey_issue =".$_GET["id"];
 
 
         $result = mysql_query($sql);
-
+        $i=1;
         while ($row = mysql_fetch_array($result)) {
+
           echo'  <tr>
-            <td id="'.$row["id"].'">'.$row["id"].'</td>
+            <td id="'.$row["id"].'">'.$i.'</td>
             <td>'.$row["title_th"].'</td>
             <td>';
             if($row["status"]==1){ echo "ใช้งาน";}
@@ -78,7 +79,8 @@ $sql .= " FROM tbl_survey_issue_sub  where  id_survey_issue =".$_GET["id"];
                 echo "ไม่ใช้งาน";
             }echo '</td>
            <td> <a href="../admin/edit_topic_sub_issue_survey_detail.php?parentid='.$_GET["id"].'&pkid='.$row["id"].'"><h5>แก้ไข</h5></a></td></tr>  ';
-        }
+
+            $i++;   }
 
 
 

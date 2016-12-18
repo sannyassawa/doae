@@ -12,10 +12,10 @@
 	$array_tab["OnlinePoll"]["en"]="การสำรวจความคิดเห็นของประชาชน(Online Poll)";
 	$link["contactperson"]["th"]="contact.php";
 	$link["contactperson"]["en"]="contact.php";
-	$link["servay"]["th"]="#";
-	$link["servay"]["en"]="#";
-	$link["OnlinePoll"]["th"]="#";
-	$link["OnlinePoll"]["en"]="#";
+	$link["servay"]["th"]="survey.php";
+	$link["servay"]["en"]="survey.php";
+	$link["OnlinePoll"]["th"]="survey_issue_topic_list.php?id_survey_sub=".$_GET["id_survey_sub"];
+	$link["OnlinePoll"]["en"]="survey_issue_topic_list.php?id_survey_sub=".$_GET["id_survey_sub"];
 
 	form_navigator($array_tab,$link);
 
@@ -33,20 +33,9 @@
   border-width: 1px 0;
   margin: 18px 0;" />
 
-<?php
-$tab["OnlinePoll"]["th"]="การสำรวจความคิดเห็นของประชาชน(Online Poll)";
-$tab["OnlinePoll"]["en"]="การสำรวจความคิดเห็นของประชาชน(Online Poll)";
-$link_tab["OnlinePoll"]["th"]="#";
-$link_tab["OnlinePoll"]["en"]="#";
-$tab["Topicservay"]["th"]="ประเด็นการสำรวจ";
-$tab["Topicservay"]["en"]="ประเด็นการสำรวจ";
-$link_tab["Topicservay"]["th"]="#";
-$link_tab["Topicservay"]["en"]="#";
-?>
 		<div class="row">
 			<div class="col-lg-12">
-				<?php
-				form_navigator($tab,$link_tab);?>
+
 
 				<form action="function/save_tbl_survey_issue.php" method="POST">
 <?php
@@ -66,6 +55,16 @@ $sql .= " FROM tbl_survey_issue  where id = ".$_GET["id"];
 
 $result = mysql_query($sql);
 $result = mysql_fetch_array($result);
+
+$tab["OnlinePoll"]["th"]="การสำรวจความคิดเห็นของประชาชน(Online Poll)";
+$tab["OnlinePoll"]["en"]="การสำรวจความคิดเห็นของประชาชน(Online Poll)";
+$link_tab["OnlinePoll"]["th"]="survey_issue_topic_list.php?id_survey_sub=".$_GET["id_survey_sub"];
+$link_tab["OnlinePoll"]["en"]="survey_issue_topic_list.php?id_survey_sub=".$_GET["id_survey_sub"];
+$tab["Topicservay"]["th"]=$result["title_th"];
+$tab["Topicservay"]["en"]=$result["title_th"];
+$link_tab["Topicservay"]["th"]="edit_topic_issue_survey.php?id=".$_GET["id"]."&id_survey_sub=".$_GET["id_survey_sub"];
+$link_tab["Topicservay"]["en"]="#";
+				form_navigator($tab,$link_tab);
 echo '
 <pre style="border: 0; background-color: transparent; " >
 	หัวข้อประเด็น <input type="text" name = "topic" id="topic" value = "'.$result["title_th"].'"  style="width:50%"><br>
