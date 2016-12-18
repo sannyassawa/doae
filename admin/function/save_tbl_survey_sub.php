@@ -6,29 +6,26 @@
 	
 	
 	
-	$userid = intval($_POST['user_id']);
+	$id = intval($_POST['id']);
 
-    $about_id = intval($_POST['about_id']);
-	$parent_id = intval($_POST['parent_id']);
-    $title ="'".trim($_POST['title'])."'";
-	$title_en ="'".trim($_POST['title_en'])."'";
-    $content ="'".trim($_POST['content'])."'";
-	$content_en ="'".trim($_POST['content_en'])."'";
+    $status = intval($_POST['status']);
+	//$type = intval($_POST['type']);
+    $title ="'".trim($_POST['topic'])."'";
 
 
 
-	
  	$queryOK = true;
 	if (mysql_query("BEGIN",$conn)) {
+        echo "test1";
 		
-		
-			if($about_id == 0){
-				
+			if($id == 0){
+
 				//echo $sql;
 			
 
 				if ($queryOK) {
 					if (!mysql_query($sql,$conn)) {
+
 						$queryOK = false;
 					}
 				}			
@@ -36,16 +33,16 @@
 			}
 			else {
 				
-				$sql = " Update t_about set ";
-				$sql .= "parent_id = $parent_id,";
-				$sql .= "title = $title,";
-				$sql .= "title_en = $title_en,";
-				$sql .= "content = $content,";
-				$sql .= "content_en = $content_en,";
-				$sql .= "update_id = $userid, ";
+				$sql = " Update tbl_survey_issue_sub set ";
+				//$sql .= "parent_id = $parent_id,";
+				$sql .= "title_th = $title,";
+				//$sql .= "title_en = $title_en,";
+				$sql .= "status = $status,";
+				//$sql .= "content_en = $content_en,";
+				//$sql .= "update_id = $userid, ";
 				$sql .= "update_date = Now()";
-				$sql .= "where about_id = $about_id";
-				
+				$sql .= "where id = $id";
+
 				if ($queryOK) {
 					if (!mysql_query($sql,$conn)) {
 						$queryOK = false;
@@ -65,6 +62,8 @@
 
 		if ($queryOK) {
 			$result = mysql_query("COMMIT",$conn);
+            header('Location: ../survey_topic.php');
+
 		} 
 		else {
 			echo "1ERROR : ไม่สามารถบันทึกข้อมูล LOG กรุณาแจ้งเจ้าหน้าที่ IT เพื่อทำการตรวจสอบครับ\n "  . mysql_error($conn);
