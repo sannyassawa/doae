@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: localhost:3306
--- Generation Time: Dec 18, 2016 at 01:56 PM
+-- Generation Time: Dec 18, 2016 at 04:01 PM
 -- Server version: 5.6.33
 -- PHP Version: 5.6.27
 
@@ -172,7 +172,7 @@ CREATE TABLE `tbl_survey_issue_answer` (
   `choise3` int(1) DEFAULT NULL,
   `choise4` int(1) DEFAULT NULL,
   `choise5` int(1) DEFAULT NULL,
-  `round` int(12) DEFAULT NULL,
+  `round` int(12) NOT NULL DEFAULT '0',
   `create_date` datetime NOT NULL DEFAULT CURRENT_TIMESTAMP
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
@@ -181,8 +181,8 @@ CREATE TABLE `tbl_survey_issue_answer` (
 --
 
 INSERT INTO `tbl_survey_issue_answer` (`id_survey_issue_sub`, `id_survey_sub`, `choise1`, `choise2`, `choise3`, `choise4`, `choise5`, `round`, `create_date`) VALUES
-(1, 2, NULL, NULL, NULL, 1, NULL, NULL, '2016-12-18 18:35:40'),
-(2, 2, NULL, 1, NULL, NULL, NULL, NULL, '2016-12-18 18:35:40');
+(1, 2, NULL, NULL, NULL, 1, NULL, 1, '2016-12-19 00:00:00'),
+(2, 2, NULL, 1, NULL, NULL, NULL, 1, '2016-12-18 18:35:40');
 
 -- --------------------------------------------------------
 
@@ -1860,6 +1860,12 @@ ALTER TABLE `tbl_survey`
 --
 ALTER TABLE `tbl_survey_issue`
   ADD PRIMARY KEY (`id`);
+
+--
+-- Indexes for table `tbl_survey_issue_answer`
+--
+ALTER TABLE `tbl_survey_issue_answer`
+  ADD PRIMARY KEY (`id_survey_issue_sub`,`id_survey_sub`,`round`);
 
 --
 -- Indexes for table `tbl_survey_issue_sub`

@@ -1,4 +1,4 @@
-<?php include('header.php'); ?>
+<?php include('header-report-survey.php'); ?>
 
 
 
@@ -21,17 +21,13 @@
                     <th class="center">น้อยที่สุด</th>
                 </tr>
                 <?php
-                //                    $sql = " select issue.title_th as issue_title, issue_sub.title_th as issue_title_detail from tbl_survey_sub s_sub
-                //                              left join tbl_survey_issue issue on s_sub.id = issue.id_survey_sub
-                //                              left join tbl_survey_issue_sub issue_sub on issue.id = issue_sub.id_survey_issue
-                //                              where s_sub.id = '".$_GET['id_survey_sub']."' order by s_sub.id asc, issue.id asc ";
 
                 $i=1;
                 $j=1;
-                echo $sql = "select issue.* from tbl_survey_sub s_sub
+                 $sql = "select issue.* from tbl_survey_sub s_sub
                             left join tbl_survey_issue issue on s_sub.id = issue.id_survey_sub
                             where s_sub.id = '".$_GET['id_survey_sub']."'";
-echo "<br/>-----------------------------<br/>";
+
                 $objQuery = mysql_query($sql);
                 while ($row = mysql_fetch_array($objQuery)){
 
@@ -45,15 +41,20 @@ echo "<br/>-----------------------------<br/>";
 
                     <?php
 
-                     echo $sqlIssue = "select ans.*, issue_sub.title_th from tbl_survey_issue issue
+                      $sqlIssue = "select ans.*, issue_sub.title_th, date(ans.create_date) as ans_date from tbl_survey_issue issue
                                 left join tbl_survey_issue_sub issue_sub on issue.id = issue_sub.id_survey_issue
                                 left join tbl_survey_issue_answer ans on issue_sub.id = ans.id_survey_issue_sub
                                 where issue.id_survey_sub= '".$_GET['id_survey_sub']."' 
                                 and issue_sub.id_survey_issue ='".$row['id']."' ";
-echo "<br/>---------------------------<br/>";
+
                     $queryIssue = mysql_query($sqlIssue);
                     while($rs = mysql_fetch_array($queryIssue)){
-                        $choise[]
+                        $choise = array();
+                        $choise[$rs['ans_date']]['choise1'] = $rs['choise1'];
+                        $choise[$rs['ans_date']]['choise2'] = $rs['choise2'];
+                        $choise[$rs['ans_date']]['choise3'] = $rs['choise3'];
+                        $choise[$rs['ans_date']]['choise4'] = $rs['choise4'];
+                        $choise[$rs['ans_date']]['choise5'] = $rs['choise5'];
 
                         ?>
 
@@ -61,11 +62,12 @@ echo "<br/>---------------------------<br/>";
 
                         <tr>
                             <td><?php echo $i.'.'.$j.'. '.$rs['title_th'];?></td>
-                            <td class="center"><?php echo $rs['choise1']; ?></td>
-                            <td class="center"><?php echo $rs['choise2']; ?></td>
-                            <td class="center"><?php echo $rs['choise3']; ?></td>
-                            <td class="center"><?php echo $rs['choise4']; ?></td>
-                            <td class="center"><?php echo $rs['choise5']; ?></td>
+                            <td class="center"><?php echo $choise[$_GET['date']]['choise1']; ?></td>
+                            <td class="center"><?php echo $choise[$_GET['date']]['choise2']; ?></td>
+                            <td class="center"><?php echo $choise[$_GET['date']]['choise3']; ?></td>
+                            <td class="center"><?php echo $choise[$_GET['date']]['choise4']; ?></td>
+                            <td class="center"><?php echo $choise[$_GET['date']]['choise5']; ?></td>
+
                         </tr>
 
                         <?php
