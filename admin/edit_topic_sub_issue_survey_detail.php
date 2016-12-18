@@ -4,12 +4,20 @@
 
 <div class="container">
 	<?php
+	$sql = " select * from tbl_survey where id = '".$_GET['parentid']."'";
+	$query = mysql_query($sql);
+	$main = mysql_fetch_array($query);
+	$sql1 = " select * from  tbl_survey_issue where id = '".$_GET['parentid']."'";
+	$query1 = mysql_query($sql1);
+	$main1 = mysql_fetch_array($query1);
 	$array_tab["contactperson"]["th"]="ข้อมูลการติดต่อ";
 	$array_tab["contactperson"]["en"]="ข้อมูลการติดต่อ";
 	$array_tab["servay"]["th"]="แบบสำรวจ";
 	$array_tab["servay"]["en"]="แบบสำรวจ";
-	$array_tab["OnlinePoll"]["th"]="การสำรวจความคิดเห็นของประชาชน(Online Poll)";
-	$array_tab["OnlinePoll"]["en"]="การสำรวจความคิดเห็นของประชาชน(Online Poll)";
+	$array_tab["OnlinePoll"]["th"]=(strlen($main['title_th'])>50)?mb_substr($main['title_th'], 0, 50, 'utf-8').'...':$main['title_th'];
+	$array_tab["OnlinePoll"]["en"]=(strlen($main['title_en'])>50)?mb_substr($main['title_en'], 0, 50, 'utf-8').'...':$main['title_en'];
+	$array_tab["OnlinePoll1"]["th"]=(strlen($main['title_th'])>50)?mb_substr($main1['title_th'], 0, 50, 'utf-8').'...':$main1['title_th'];
+	$array_tab["OnlinePoll1"]["en"]=(strlen($main['title_en'])>50)?mb_substr($main1['title_en'], 0, 50, 'utf-8').'...':$main1['title_en'];
 	$link["contactperson"]["th"]="contact.php";
 	$link["contactperson"]["en"]="contact.php";
 	$link["servay"]["th"]="survey.php";
@@ -34,10 +42,14 @@
   margin: 18px 0;" />
 
 <?php
-$tab["OnlinePoll"]["th"]="การสำรวจความคิดเห็นของประชาชน(Online Poll)";
-$tab["OnlinePoll"]["en"]="การสำรวจความคิดเห็นของประชาชน(Online Poll)";
+$array_tab["OnlinePoll"]["th"]=(strlen($main['title_th'])>50)?mb_substr($main['title_th'], 0, 50, 'utf-8').'...':$main['title_th'];
+$array_tab["OnlinePoll"]["en"]=(strlen($main['title_en'])>50)?mb_substr($main['title_en'], 0, 50, 'utf-8').'...':$main['title_en'];
 $link_tab["OnlinePoll"]["th"]="survey_issue_sub_topic_list.php?id=".$result["id"];
 $link_tab["OnlinePoll"]["en"]="survey_issue_sub_topic_list.php?id=".$result["id"];
+$tab["OnlinePoll1"]["th"]=(strlen($main['title_th'])>50)?mb_substr($main1['title_th'], 0, 50, 'utf-8').'...':$main1['title_th'];
+$tab["OnlinePoll1"]["en"]=(strlen($main['title_en'])>50)?mb_substr($main1['title_en'], 0, 50, 'utf-8').'...':$main1['title_en'];
+$link_tab["OnlinePoll1"]["th"]="survey_issue_sub_topic_list.php?id=".$result["id"];
+$link_tab["OnlinePoll1"]["en"]="survey_issue_sub_topic_list.php?id=".$result["id"];
 
 ?>
 		<div class="row">
@@ -64,8 +76,8 @@ $result = mysql_query($sql);
 $result = mysql_fetch_array($result);
 $tab["Topicservay"]["th"]=$result["title_th"];
 $tab["Topicservay"]["en"]=$result["title_th"];
-$link_tab["Topicservay"]["th"]="survey_issue_sub_topic_list.php?id=".$result["id"];;
-$link_tab["Topicservay"]["en"]="survey_issue_sub_topic_list.php?id=".$result["id"];;
+$link_tab["Topicservay"]["th"]="edit_topic_sub_issue_survey_detail.php?parentid=".$_GET["parentid"]."&pkid=".$_GET["pkid"];
+$link_tab["Topicservay"]["en"]="edit_topic_sub_issue_survey_detail.php?parentid=".$_GET["parentid"]."&pkid=".$_GET["pkid"];
 				form_navigator($tab,$link_tab);
 echo '
 <pre style="border: 0; background-color: transparent; " >

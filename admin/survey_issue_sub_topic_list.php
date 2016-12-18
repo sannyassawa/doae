@@ -4,12 +4,20 @@
 
 <div class="container">
 <?php
+$sql = " select * from tbl_survey where id = '".$_GET['id']."'";
+$query = mysql_query($sql);
+$main = mysql_fetch_array($query);
+$sql1 = " select * from  tbl_survey_issue where id = '".$_GET['id']."'";
+$query1 = mysql_query($sql1);
+$main1 = mysql_fetch_array($query1);
 $array_tab["contactperson"]["th"]="ข้อมูลการติดต่อ";
 $array_tab["contactperson"]["en"]="ข้อมูลการติดต่อ";
 $array_tab["servay"]["th"]="แบบสำรวจ";
 $array_tab["servay"]["en"]="แบบสำรวจ";
-$array_tab["OnlinePoll"]["th"]="การสำรวจความคิดเห็นของประชาชน(Online Poll)";
-$array_tab["OnlinePoll"]["en"]="การสำรวจความคิดเห็นของประชาชน(Online Poll)";
+$array_tab["OnlinePoll"]["th"]=(strlen($main['title_th'])>50)?mb_substr($main['title_th'], 0, 50, 'utf-8').'...':$main['title_th'];
+$array_tab["OnlinePoll"]["en"]=(strlen($main['title_en'])>50)?mb_substr($main['title_en'], 0, 50, 'utf-8').'...':$main['title_en'];
+$array_tab["OnlinePoll1"]["th"]=$main1["title_th"];
+$array_tab["OnlinePoll1"]["en"]=$main1["title_th"];
 $link["OnlinePoll"]["th"]="survey_issue_sub_topic_list.php?id=".$_GET["id"];
 $link["OnlinePoll"]["en"]="survey_issue_sub_topic_list.php?id=".$_GET["id"];
 $link["servay"]["th"]="survey.php";
@@ -33,8 +41,8 @@ form_navigator($array_tab,$link);
   margin: 18px 0;" />
 
 <?php
-$tab["OnlinePoll"]["th"]="การสำรวจความคิดเห็นของประชาชน(Online Poll)";
-$tab["OnlinePoll"]["en"]="การสำรวจความคิดเห็นของประชาชน(Online Poll)";
+$tab["OnlinePoll"]["th"]=$main1["title_th"];
+$tab["OnlinePoll"]["en"]=$main1["title_th"];
 $link_tab["OnlinePoll"]["th"]="survey_issue_sub_topic_list.php?id=".$_GET["id"];
 $link_tab["OnlinePoll"]["en"]="survey_issue_sub_topic_list.php?id=".$_GET["id"];
 $addtext["th"]="เพิ่ม";
