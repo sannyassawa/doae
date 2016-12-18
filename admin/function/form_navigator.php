@@ -28,4 +28,9 @@ function form_navigator($array_tab,$link,$addtext=null,$addlink=null){
      </div>';
 
 }
+
+function txActive($a){
+    $active = ($a==1)?"<i class='fa fa-check-circle' aria-hidden='true'></i>":"<i class='fa fa-times-circle' aria-hidden='true'></i>";
+    return $active;
+}
 ?>
