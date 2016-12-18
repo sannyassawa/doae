@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: localhost:3306
--- Generation Time: Dec 18, 2016 at 06:51 AM
+-- Generation Time: Dec 18, 2016 at 09:25 AM
 -- Server version: 5.6.33
 -- PHP Version: 5.6.27
 
@@ -129,8 +129,8 @@ CREATE TABLE `tbl_survey` (
 --
 
 INSERT INTO `tbl_survey` (`id`, `title_th`, `title_en`, `link`, `type`, `status`, `create_date`, `update_date`) VALUES
-(1, 'การสำรวจความพึงพอใจการใช้บริการเว็บไซต์กรมส่งเสริมการเกษตร ปีงบประมาณ 2559', '', 'https://cdnjs.cloudflare.com/ajax/libs/jquery-validate/1.15.0/jquery.validate.min.js', 1, 1, '2016-12-17 15:52:04', '2016-12-18 12:35:40'),
-(2, 'การสำรวจความคิดเห็นของประชาชน (Online Poll)', '', '', 1, 1, '2016-12-17 16:39:44', '2016-12-17 17:35:18');
+(1, 'การสำรวจความพึงพอใจการใช้บริการเว็บไซต์กรมส่งเสริมการเกษตร ปีงบประมาณ 2559', '', '', 2, 1, '2016-12-17 15:52:04', '2016-12-18 14:21:27'),
+(2, 'การสำรวจความคิดเห็นของประชาชน (Online Poll)', '', 'https://cdnjs.cloudflare.com/ajax/libs/jquery-validate/1.15.0/jquery.validate.min.js', 1, 1, '2016-12-17 16:39:44', '2016-12-18 14:21:33');
 
 -- --------------------------------------------------------
 
@@ -154,12 +154,12 @@ CREATE TABLE `tbl_survey_issue` (
 --
 
 CREATE TABLE `tbl_survey_issue_sub` (
-  `id` int(12) NOT NULL,
   `id_survey_issue` int(12) NOT NULL,
-  `title_th` text,
-  `status` int(1) DEFAULT NULL,
-  `create_date` datetime NOT NULL DEFAULT CURRENT_TIMESTAMP,
-  `update_date` datetime NOT NULL DEFAULT CURRENT_TIMESTAMP
+  `choise1` int(1) DEFAULT '0',
+  `choise2` int(1) DEFAULT '0',
+  `choise3` int(1) DEFAULT '0',
+  `choise4` int(1) DEFAULT '0',
+  `choise5` int(1) DEFAULT '0'
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 -- --------------------------------------------------------
@@ -188,8 +188,8 @@ INSERT INTO `tbl_survey_sub` (`id`, `id_survey`, `title_th`, `start_date`, `end_
 (2, 1, 'survey_subxxxeee', '2016-10-20', '2016-10-20', 0, '2016-12-17 17:18:15', '2016-12-17 18:20:12'),
 (3, 0, 'test', '2016-11-11', '2016-11-11', 0, '2016-12-17 18:23:27', '2016-12-17 18:23:27'),
 (4, 1, 'ssss', '2016-11-11', '2016-11-11', 0, '2016-12-17 18:25:42', '2016-12-17 18:25:42'),
-(5, 1, 'ddfsdf', '2016-11-11', '2016-11-11', 1, '2016-12-17 18:26:27', '2016-12-17 18:26:27'),
-(6, 1, 'xxx', '2016-11-11', '2016-11-11', 1, '2016-12-17 18:27:24', '2016-12-17 18:27:32'),
+(5, 1, 'ddfsdf', '2016-11-11', '2016-11-11', 0, '2016-12-17 18:26:27', '2016-12-18 14:33:10'),
+(6, 1, 'xxx', '2016-11-11', '2016-11-11', 0, '2016-12-17 18:27:24', '2016-12-18 14:33:00'),
 (7, 1, 'e', '2016-11-11', '2016-11-11', 0, '2016-12-17 18:27:51', '2016-12-17 18:27:51'),
 (8, 2, 'test1', '2016-12-01', '2016-12-29', 1, '2016-12-18 12:34:11', '2016-12-18 12:34:55');
 
@@ -1817,7 +1817,7 @@ ALTER TABLE `tbl_survey_issue`
 -- Indexes for table `tbl_survey_issue_sub`
 --
 ALTER TABLE `tbl_survey_issue_sub`
-  ADD PRIMARY KEY (`id`);
+  ADD PRIMARY KEY (`id_survey_issue`);
 
 --
 -- Indexes for table `tbl_survey_sub`
@@ -2119,11 +2119,6 @@ ALTER TABLE `tbl_survey`
 -- AUTO_INCREMENT for table `tbl_survey_issue`
 --
 ALTER TABLE `tbl_survey_issue`
-  MODIFY `id` int(12) NOT NULL AUTO_INCREMENT;
---
--- AUTO_INCREMENT for table `tbl_survey_issue_sub`
---
-ALTER TABLE `tbl_survey_issue_sub`
   MODIFY `id` int(12) NOT NULL AUTO_INCREMENT;
 --
 -- AUTO_INCREMENT for table `tbl_survey_sub`
