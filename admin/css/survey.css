@@ -9,7 +9,10 @@
     font-size: medium;
 }
 #report-survey{
-    text-align: center !important;
+
+}
+.center{
+    text-align: center;
 }
 /*#report-survey th{*/
     /*text-align: center !important;*/
