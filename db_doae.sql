@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: localhost:3306
--- Generation Time: Dec 18, 2016 at 09:25 AM
+-- Generation Time: Dec 18, 2016 at 10:08 AM
 -- Server version: 5.6.33
 -- PHP Version: 5.6.27
 
@@ -129,7 +129,7 @@ CREATE TABLE `tbl_survey` (
 --
 
 INSERT INTO `tbl_survey` (`id`, `title_th`, `title_en`, `link`, `type`, `status`, `create_date`, `update_date`) VALUES
-(1, 'การสำรวจความพึงพอใจการใช้บริการเว็บไซต์กรมส่งเสริมการเกษตร ปีงบประมาณ 2559', '', '', 2, 1, '2016-12-17 15:52:04', '2016-12-18 14:21:27'),
+(1, 'การสำรวจความพึงพอใจการใช้บริการเว็บไซต์กรมส่งเสริมการเกษตร ปีงบประมาณ 2559', '', '', 2, 1, '2016-12-17 15:52:04', '2016-12-18 16:07:18'),
 (2, 'การสำรวจความคิดเห็นของประชาชน (Online Poll)', '', 'https://cdnjs.cloudflare.com/ajax/libs/jquery-validate/1.15.0/jquery.validate.min.js', 1, 1, '2016-12-17 16:39:44', '2016-12-18 14:21:33');
 
 -- --------------------------------------------------------
@@ -150,16 +150,31 @@ CREATE TABLE `tbl_survey_issue` (
 -- --------------------------------------------------------
 
 --
--- Table structure for table `tbl_survey_issue_sub`
+-- Table structure for table `tbl_survey_issue_answer`
 --
 
-CREATE TABLE `tbl_survey_issue_sub` (
-  `id_survey_issue` int(12) NOT NULL,
+CREATE TABLE `tbl_survey_issue_answer` (
+  `id_survey_issue_sub` int(12) NOT NULL,
   `choise1` int(1) DEFAULT '0',
   `choise2` int(1) DEFAULT '0',
   `choise3` int(1) DEFAULT '0',
   `choise4` int(1) DEFAULT '0',
   `choise5` int(1) DEFAULT '0'
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `tbl_survey_issue_sub`
+--
+
+CREATE TABLE `tbl_survey_issue_sub` (
+  `id` int(12) NOT NULL,
+  `id_survey_issue` int(1) DEFAULT NULL,
+  `title_th` text,
+  `status` int(1) DEFAULT NULL,
+  `create_date` datetime NOT NULL DEFAULT CURRENT_TIMESTAMP,
+  `update_date` datetime NOT NULL DEFAULT CURRENT_TIMESTAMP
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 -- --------------------------------------------------------
@@ -190,7 +205,7 @@ INSERT INTO `tbl_survey_sub` (`id`, `id_survey`, `title_th`, `start_date`, `end_
 (4, 1, 'ssss', '2016-11-11', '2016-11-11', 0, '2016-12-17 18:25:42', '2016-12-17 18:25:42'),
 (5, 1, 'ddfsdf', '2016-11-11', '2016-11-11', 0, '2016-12-17 18:26:27', '2016-12-18 14:33:10'),
 (6, 1, 'xxx', '2016-11-11', '2016-11-11', 0, '2016-12-17 18:27:24', '2016-12-18 14:33:00'),
-(7, 1, 'e', '2016-11-11', '2016-11-11', 0, '2016-12-17 18:27:51', '2016-12-17 18:27:51'),
+(7, 1, 'e', '2016-11-11', '2016-11-11', 1, '2016-12-17 18:27:51', '2016-12-18 16:07:04'),
 (8, 2, 'test1', '2016-12-01', '2016-12-29', 1, '2016-12-18 12:34:11', '2016-12-18 12:34:55');
 
 -- --------------------------------------------------------
@@ -1814,10 +1829,16 @@ ALTER TABLE `tbl_survey_issue`
   ADD PRIMARY KEY (`id`);
 
 --
+-- Indexes for table `tbl_survey_issue_answer`
+--
+ALTER TABLE `tbl_survey_issue_answer`
+  ADD PRIMARY KEY (`id_survey_issue_sub`);
+
+--
 -- Indexes for table `tbl_survey_issue_sub`
 --
 ALTER TABLE `tbl_survey_issue_sub`
-  ADD PRIMARY KEY (`id_survey_issue`);
+  ADD PRIMARY KEY (`id`);
 
 --
 -- Indexes for table `tbl_survey_sub`
@@ -2119,6 +2140,11 @@ ALTER TABLE `tbl_survey`
 -- AUTO_INCREMENT for table `tbl_survey_issue`
 --
 ALTER TABLE `tbl_survey_issue`
+  MODIFY `id` int(12) NOT NULL AUTO_INCREMENT;
+--
+-- AUTO_INCREMENT for table `tbl_survey_issue_sub`
+--
+ALTER TABLE `tbl_survey_issue_sub`
   MODIFY `id` int(12) NOT NULL AUTO_INCREMENT;
 --
 -- AUTO_INCREMENT for table `tbl_survey_sub`
