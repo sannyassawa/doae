@@ -40,13 +40,14 @@ $addlink["th"]="form_survey_sub.php?id_survey=".$main['id'];
             <tr>
                 <th>แบบฟอร์มการสำรวจ</th>
                 <th>ช่วงเวลาที่ใช้</th>
+                <th>อับเดต</th>
                 <th>สภานะ</th>
                 <th>แก้ไข</th>
                 <th>ดูผลการสำรวจ</th>
             </tr>
 
             <?php
-            $sql = " select * from tbl_survey_sub where id_survey = '".$main['id']."' order by id desc ";
+            $sql = " select * from tbl_survey_sub where id_survey = '".$main['id']."' order by status desc, id desc ";
             $objQuery = mysql_query($sql);
             while ($row = mysql_fetch_array($objQuery)) {
 
@@ -55,6 +56,7 @@ $addlink["th"]="form_survey_sub.php?id_survey=".$main['id'];
                 echo "<tr>
                         <td><a href='issue.php?id_survey_sub=".$row['id']."'>".$row['title_th']."</a></td>
                         <td>".$row['start_date']." - ".$row['end_date']."</td>
+                        <td>".$row['update_date']."</td>
                         <td>".txActive($row['status'])."</td>
                         <td><a href='form_survey_sub.php?id_survey=".$main['id']."&id=".$row['id']."'>แก้ไข</a></td>
                         <td>ดูผลการสำรวจ</td>

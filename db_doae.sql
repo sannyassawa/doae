@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: localhost:3306
--- Generation Time: Dec 17, 2016 at 08:28 AM
+-- Generation Time: Dec 18, 2016 at 06:51 AM
 -- Server version: 5.6.33
 -- PHP Version: 5.6.27
 
@@ -129,8 +129,8 @@ CREATE TABLE `tbl_survey` (
 --
 
 INSERT INTO `tbl_survey` (`id`, `title_th`, `title_en`, `link`, `type`, `status`, `create_date`, `update_date`) VALUES
-(1, 'th', 'en', 'link', 1, 1, '2016-12-17 13:50:22', '2016-12-17 13:50:22'),
-(2, 'dsf', 'dsf', 'sdf', 1, 1, '2016-12-17 14:26:54', '2016-12-17 14:26:54');
+(1, 'การสำรวจความพึงพอใจการใช้บริการเว็บไซต์กรมส่งเสริมการเกษตร ปีงบประมาณ 2559', '', 'https://cdnjs.cloudflare.com/ajax/libs/jquery-validate/1.15.0/jquery.validate.min.js', 1, 1, '2016-12-17 15:52:04', '2016-12-18 12:35:40'),
+(2, 'การสำรวจความคิดเห็นของประชาชน (Online Poll)', '', '', 1, 1, '2016-12-17 16:39:44', '2016-12-17 17:35:18');
 
 -- --------------------------------------------------------
 
@@ -140,6 +140,7 @@ INSERT INTO `tbl_survey` (`id`, `title_th`, `title_en`, `link`, `type`, `status`
 
 CREATE TABLE `tbl_survey_issue` (
   `id` int(12) NOT NULL,
+  `id_survey_sub` int(12) NOT NULL,
   `title_th` text,
   `status` int(1) DEFAULT NULL,
   `create_date` datetime NOT NULL DEFAULT CURRENT_TIMESTAMP,
@@ -154,6 +155,7 @@ CREATE TABLE `tbl_survey_issue` (
 
 CREATE TABLE `tbl_survey_issue_sub` (
   `id` int(12) NOT NULL,
+  `id_survey_issue` int(12) NOT NULL,
   `title_th` text,
   `status` int(1) DEFAULT NULL,
   `create_date` datetime NOT NULL DEFAULT CURRENT_TIMESTAMP,
@@ -168,13 +170,28 @@ CREATE TABLE `tbl_survey_issue_sub` (
 
 CREATE TABLE `tbl_survey_sub` (
   `id` int(12) NOT NULL,
+  `id_survey` int(12) NOT NULL,
   `title_th` text,
-  `start_date` datetime DEFAULT NULL,
-  `end_date` datetime DEFAULT NULL,
+  `start_date` date DEFAULT NULL,
+  `end_date` date DEFAULT NULL,
   `status` int(1) DEFAULT NULL,
   `create_date` datetime NOT NULL DEFAULT CURRENT_TIMESTAMP,
   `update_date` datetime NOT NULL DEFAULT CURRENT_TIMESTAMP
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+--
+-- Dumping data for table `tbl_survey_sub`
+--
+
+INSERT INTO `tbl_survey_sub` (`id`, `id_survey`, `title_th`, `start_date`, `end_date`, `status`, `create_date`, `update_date`) VALUES
+(1, 1, 'survey_sub', '2016-12-17', '2016-12-22', 1, '2016-12-17 17:17:42', '2016-12-17 17:17:42'),
+(2, 1, 'survey_subxxxeee', '2016-10-20', '2016-10-20', 0, '2016-12-17 17:18:15', '2016-12-17 18:20:12'),
+(3, 0, 'test', '2016-11-11', '2016-11-11', 0, '2016-12-17 18:23:27', '2016-12-17 18:23:27'),
+(4, 1, 'ssss', '2016-11-11', '2016-11-11', 0, '2016-12-17 18:25:42', '2016-12-17 18:25:42'),
+(5, 1, 'ddfsdf', '2016-11-11', '2016-11-11', 1, '2016-12-17 18:26:27', '2016-12-17 18:26:27'),
+(6, 1, 'xxx', '2016-11-11', '2016-11-11', 1, '2016-12-17 18:27:24', '2016-12-17 18:27:32'),
+(7, 1, 'e', '2016-11-11', '2016-11-11', 0, '2016-12-17 18:27:51', '2016-12-17 18:27:51'),
+(8, 2, 'test1', '2016-12-01', '2016-12-29', 1, '2016-12-18 12:34:11', '2016-12-18 12:34:55');
 
 -- --------------------------------------------------------
 
@@ -1785,6 +1802,30 @@ ALTER TABLE `level`
   ADD PRIMARY KEY (`level_id`);
 
 --
+-- Indexes for table `tbl_survey`
+--
+ALTER TABLE `tbl_survey`
+  ADD PRIMARY KEY (`id`);
+
+--
+-- Indexes for table `tbl_survey_issue`
+--
+ALTER TABLE `tbl_survey_issue`
+  ADD PRIMARY KEY (`id`);
+
+--
+-- Indexes for table `tbl_survey_issue_sub`
+--
+ALTER TABLE `tbl_survey_issue_sub`
+  ADD PRIMARY KEY (`id`);
+
+--
+-- Indexes for table `tbl_survey_sub`
+--
+ALTER TABLE `tbl_survey_sub`
+  ADD PRIMARY KEY (`id`);
+
+--
 -- Indexes for table `t_about`
 --
 ALTER TABLE `t_about`
@@ -2070,6 +2111,26 @@ ALTER TABLE `user`
 ALTER TABLE `functions`
   MODIFY `function_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=34;
 --
+-- AUTO_INCREMENT for table `tbl_survey`
+--
+ALTER TABLE `tbl_survey`
+  MODIFY `id` int(12) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
+--
+-- AUTO_INCREMENT for table `tbl_survey_issue`
+--
+ALTER TABLE `tbl_survey_issue`
+  MODIFY `id` int(12) NOT NULL AUTO_INCREMENT;
+--
+-- AUTO_INCREMENT for table `tbl_survey_issue_sub`
+--
+ALTER TABLE `tbl_survey_issue_sub`
+  MODIFY `id` int(12) NOT NULL AUTO_INCREMENT;
+--
+-- AUTO_INCREMENT for table `tbl_survey_sub`
+--
+ALTER TABLE `tbl_survey_sub`
+  MODIFY `id` int(12) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=9;
+--
 -- AUTO_INCREMENT for table `t_about`
 --
 ALTER TABLE `t_about`
@@ -2103,7 +2164,7 @@ ALTER TABLE `t_banner`
 -- AUTO_INCREMENT for table `t_comment`
 --
 ALTER TABLE `t_comment`
-  MODIFY `com_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
+  MODIFY `com_id` int(11) NOT NULL AUTO_INCREMENT;
 --
 -- AUTO_INCREMENT for table `t_contact`
 --
@@ -2128,7 +2189,7 @@ ALTER TABLE `t_download_file`
 -- AUTO_INCREMENT for table `t_event`
 --
 ALTER TABLE `t_event`
-  MODIFY `event_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=11;
+  MODIFY `event_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=9;
 --
 -- AUTO_INCREMENT for table `t_freq`
 --
@@ -2138,12 +2199,12 @@ ALTER TABLE `t_freq`
 -- AUTO_INCREMENT for table `t_freq_cat`
 --
 ALTER TABLE `t_freq_cat`
-  MODIFY `cat_freq_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=10;
+  MODIFY `cat_freq_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
 --
 -- AUTO_INCREMENT for table `t_gallery`
 --
 ALTER TABLE `t_gallery`
-  MODIFY `gallery_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=18;
+  MODIFY `gallery_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=9;
 --
 -- AUTO_INCREMENT for table `t_gallery_file`
 --
@@ -2158,7 +2219,7 @@ ALTER TABLE `t_km`
 -- AUTO_INCREMENT for table `t_km_cat`
 --
 ALTER TABLE `t_km_cat`
-  MODIFY `cat_km_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=15;
+  MODIFY `cat_km_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=9;
 --
 -- AUTO_INCREMENT for table `t_km_file`
 --
@@ -2203,12 +2264,12 @@ ALTER TABLE `t_page_file`
 -- AUTO_INCREMENT for table `t_people`
 --
 ALTER TABLE `t_people`
-  MODIFY `people_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=28;
+  MODIFY `people_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=19;
 --
 -- AUTO_INCREMENT for table `t_people_cat`
 --
 ALTER TABLE `t_people_cat`
-  MODIFY `cat_people_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=34;
+  MODIFY `cat_people_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=30;
 --
 -- AUTO_INCREMENT for table `t_people_file`
 --
@@ -2268,7 +2329,7 @@ ALTER TABLE `t_service_file`
 -- AUTO_INCREMENT for table `t_status`
 --
 ALTER TABLE `t_status`
-  MODIFY `status_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=5;
+  MODIFY `status_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
 --
 -- AUTO_INCREMENT for table `t_survey`
 --
@@ -2283,7 +2344,7 @@ ALTER TABLE `t_vdo`
 -- AUTO_INCREMENT for table `t_vdo_cat`
 --
 ALTER TABLE `t_vdo_cat`
-  MODIFY `cat_vdo_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
+  MODIFY `cat_vdo_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
 --
 -- AUTO_INCREMENT for table `user`
 --

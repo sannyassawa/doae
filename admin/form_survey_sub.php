@@ -94,7 +94,7 @@ if($_SERVER['REQUEST_METHOD']=='POST'){
                             <div class='col-lg-2 titlename'></div>
                             <div class='col-lg-6'>
                                 <button name="submit" type="submit" >ตกลง</button>
-                                <button name="reset" type="reset" >ยกเลิก</button>
+                                <button name="button" type="button" onclick="javascript:history.go(-1);" >ยกเลิก</button>
                             </div>
                         </div>
                     </td>

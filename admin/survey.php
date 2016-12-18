@@ -27,7 +27,7 @@ $addlink["th"]="form_survey.php";
     <div class="row">
         <table id="survey" class="table">
             <?php
-            $sql = " select * from tbl_survey order by id desc ";
+            $sql = " select * from tbl_survey order by status desc, id desc ";
             $objQuery = mysql_query($sql);
             while ($row = mysql_fetch_array($objQuery)) {
 
