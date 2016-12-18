@@ -13,8 +13,8 @@ $tab["nav1"]["th"]="ข้อมูลการติดต่อ";
 $tab["nav1"]["en"]="ข้อมูลการติดต่อ";
 $tab["nav2"]["th"]="แบบสำรวจ";
 $tab["nav2"]["en"]="แบบสำรวจ";
-$tab["nav3"]["th"]= $main['title_th'];
-$tab["nav3"]["en"]= $main['title_en'];
+$tab["nav3"]["th"]= (strlen($main['title_th'])>50)?mb_substr($main['title_th'], 0, 50, 'utf-8').'...':$main['title_th'];
+$tab["nav3"]["en"]= (strlen($main['title_en'])>50)?mb_substr($main['title_en'], 0, 50, 'utf-8').'...':$main['title_en'];
 
 
 
@@ -59,7 +59,7 @@ $addlink["th"]="form_survey_sub.php?id_survey=".$main['id'];
                         <td>".$row['update_date']."</td>
                         <td>".txActive($row['status'])."</td>
                         <td><a href='form_survey_sub.php?id_survey=".$main['id']."&id=".$row['id']."'>แก้ไข</a></td>
-                        <td>ดูผลการสำรวจ</td>
+                        <td><a href='report-survery.php?id_survey=".$main['id']."&id_survey_sub=".$row['id']."'>ดูผลการสำรวจ</a></td>
                     </tr>";
 
 

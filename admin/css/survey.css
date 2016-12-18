@@ -8,3 +8,9 @@
 #survey a, a:link, a:visited, a:hover, a:active{
     font-size: medium;
 }
+#report-survey{
+    text-align: center !important;
+}
+/*#report-survey th{*/
+    /*text-align: center !important;*/
+/*}*/
