@@ -48,7 +48,7 @@ $link_tab["Topicservay"]["en"]="#";
 				<?php
 				form_navigator($tab,$link_tab);?>
 
-				<form action="#" method="POST">
+				<form action="function/save_tbl_survey_sub.php" method="POST">
 <?php
 
 ob_start("ob_gzhandler");
@@ -68,12 +68,13 @@ $result = mysql_query($sql);
 $result = mysql_fetch_array($result);
 echo '
 <pre style="border: 0; background-color: transparent; " >
-	หัวข้อประเด็น <input type="text" id="topic" value = "'.$result["title_th"].'"  style="width:50%"><br>
-สถานะการแสดงผล     <select name="type" id="status">
-    				<option value="active">ใช้งาน</option>
-  					<option value="non-active">ไม่ใช้งาน</option>
- 					</select><br>
+	หัวข้อประเด็น <input type="text" name = "topic" id="topic" value = "'.$result["title_th"].'"  style="width:50%"><br>
+สถานะการแสดงผล     <select name="status" id="status">
+    				<option value="1">ใช้งาน</option>
+  					<option value="0">ไม่ใช้งาน</option>
+ 					</select><br><input type="hidden" id = "id" name="id" value = "'.$result["id"].'">
 				<input type ="submit" id="Topic_survay" name="Topic_survay" value="บันทึก"></pre>';
+
 
 ?>
 
