@@ -48,7 +48,7 @@ $link_tab["Topicservay"]["en"]="#";
 				<?php
 				form_navigator($tab,$link_tab);?>
 
-				<form action="function/save_tbl_survey_sub.php" method="POST">
+				<form action="function/add_tbl_survey_issue.php" method="POST">
 <?php
 
 ob_start("ob_gzhandler");
@@ -57,23 +57,17 @@ ob_start("ob_gzhandler");
 header("Content-Type: text/html; charset=utf-8");
 
 
-
-$sql = " SELECT * ";
-$sql .= " FROM tbl_survey_issue_sub  where id = ".$_GET["id"];
-
-
-
-
-$result = mysql_query($sql);
-$result = mysql_fetch_array($result);
 echo '
 <pre style="border: 0; background-color: transparent; " >
-	หัวข้อประเด็น <input type="text" name = "topic" id="topic" value = "'.$result["title_th"].'"  style="width:50%"><br>
+	หัวข้อประเด็น <input type="text" name = "topic" id="topic" value = " "  style="width:50%"><br>
 สถานะการแสดงผล     <select name="status" id="status">
     				<option value="1">ใช้งาน</option>
   					<option value="0">ไม่ใช้งาน</option>
- 					</select><br><input type="hidden" id = "id" name="id" value = "'.$result["id"].'">
-				<input type ="submit" id="Topic_survay" name="Topic_survay" value="บันทึก"></pre>';
+ 					</select><br><input type="hidden" id = "id" name="id" value = " ">
+				<input type ="submit" id="Topic_survay" name="Topic_survay" value="เพิ่ม"></pre>
+				<input type="hidden" id="id_survey_sub" name="id_survey_sub" value = "'.$_GET["id_survey_sub"].'">'
+
+;
 
 
 ?>

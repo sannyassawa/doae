@@ -37,11 +37,13 @@ $tab["OnlinePoll"]["th"]="การสำรวจความคิดเห็
 $tab["OnlinePoll"]["en"]="การสำรวจความคิดเห็นของประชาชน(Online Poll)";
 $link_tab["OnlinePoll"]["th"]="#";
 $link_tab["OnlinePoll"]["en"]="#";
-
+$addtext["th"]="เพิ่ม";
+$addtext["en"]="เพิ่ม";
+$addlink["th"]="add_topic_sub_survey_issue.php?id_survey_issue=".$_GET["id"];
 ?>
         <div class="row">
             <div class="col-lg-12">
-                <?php form_navigator($tab,$link_tab);?>
+                <?php   form_navigator($tab, $link_tab, $addtext, $addlink); ?>
     <table class="table table-sm">
         <thead>
         <tr>
@@ -60,8 +62,7 @@ header("Content-Type: text/html; charset=utf-8");
 
 
 $sql = " SELECT * ";
-$sql .= " FROM tbl_survey_issue_sub  ";
-
+$sql .= " FROM tbl_survey_issue_sub  where  id_survey_issue =".$_GET["id"];
 
 
 
@@ -76,7 +77,7 @@ $sql .= " FROM tbl_survey_issue_sub  ";
             else{
                 echo "ไม่ใช้งาน";
             }echo '</td>
-           <td> <a href="../admin/Topic_survey.php?id='.$row["id"].'"><h5>แก้ไข</h5></a></td></tr>  ';
+           <td> <a href="../admin/edit_topic_sub_issue_survey_detail.php?parentid='.$_GET["id"].'&pkid='.$row["id"].'"><h5>แก้ไข</h5></a></td></tr>  ';
         }
 
 

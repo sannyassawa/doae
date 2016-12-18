@@ -3,70 +3,53 @@
 	require_once('../inc/connectDB.php');
 	
 	header("Content-Type: text/html; charset=utf-8");
-	
-	
-	
-	$id = intval($_POST['id']);
+
+$sql = " SELECT max(id) ";
+$sql .= " FROM tbl_survey_issue ";
+$rs=mysql_query($sql,$conn);
+$rs = mysql_fetch_array($rs);
+
+$id = $rs['max(id)'];
+$id = $id+1;
 
     $status = intval($_POST['status']);
 	//$type = intval($_POST['type']);
     $title ="'".trim($_POST['topic'])."'";
-
+     $id_survey_sub=intval($_POST["id_survey_sub"]);
 
 
  	$queryOK = true;
 	if (mysql_query("BEGIN",$conn)) {
-        echo "test1";
-		
-			if($id == 0){
 
-				//echo $sql;
-			
 
-				if ($queryOK) {
-					if (!mysql_query($sql,$conn)) {
 
-						$queryOK = false;
-					}
-				}			
+
+
+                $sql = " INSERT  INTO tbl_survey_issue
+					 ( id,id_survey_sub,title_th, status, create_date,update_date) ";
+                $sql .= " VALUES ";
+                $sql .= "( $id,$id_survey_sub,$title, $status, now(),now() )";
 				
-			}
-			else {
-				
-				$sql = " Update tbl_survey_issue_sub set ";
-				//$sql .= "parent_id = $parent_id,";
-				$sql .= "title_th = $title,";
-				//$sql .= "title_en = $title_en,";
-				$sql .= "status = $status,";
-				//$sql .= "content_en = $content_en,";
-				//$sql .= "update_id = $userid, ";
-				$sql .= "update_date = Now()";
-				$sql .= "where id = $id";
 
-				if ($queryOK) {
-					if (!mysql_query($sql,$conn)) {
-						$queryOK = false;
-					}
-				}
+
 				
 				if ($queryOK) {
 					if (!mysql_query($sql,$conn)) {
 						$queryOK = false;
 					}
 				}
-			}
+
 
             
-			
-			//echo $sql;
+
 
 		if ($queryOK) {
 			$result = mysql_query("COMMIT",$conn);
-            header('Location: ../survey_topic.php');
+            header("Location: ../survey_issue_topic_list.php?id_survey_sub=$id_survey_sub");
 
 		} 
 		else {
-			echo "1ERROR : ไม่สามารถบันทึกข้อมูล LOG กรุณาแจ้งเจ้าหน้าที่ IT เพื่อทำการตรวจสอบครับ\n "  . mysql_error($conn);
+			echo "1ßERROR : ไม่สามารถบันทึกข้อมูล LOG กรุณาแจ้งเจ้าหน้าที่ IT เพื่อทำการตรวจสอบครับ\n "  . mysql_error($conn);
 			echo $sql;
 			$result = mysql_query("ROLLBACK",$conn);	
 			$queryOK = false;
