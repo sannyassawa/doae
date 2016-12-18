@@ -29,6 +29,7 @@
 
     <!-- Custom CSS -->
     <link href="css/doae.css" rel="stylesheet">
+    <link href="css/survey.css" rel="stylesheet">
 
     <!-- Custom Fonts -->
     <link href="font-awesome/css/font-awesome.min.css" rel="stylesheet" type="text/css">
