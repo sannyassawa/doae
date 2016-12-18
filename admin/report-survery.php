@@ -66,10 +66,10 @@ $link_tab["nav4"]["th"]="#";
 
                     $i=1;
                     $j=1;
-                    echo $sql = "select issue.* from tbl_survey_sub s_sub
+                     $sql = "select issue.* from tbl_survey_sub s_sub
                             left join tbl_survey_issue issue on s_sub.id = issue.id_survey_sub
                             where s_sub.id = '".$_GET['id_survey_sub']."'";
-                echo "<br/>-------------------------------------<br/>";
+
                     $objQuery = mysql_query($sql);
                     while ($row = mysql_fetch_array($objQuery)){
 
@@ -83,11 +83,11 @@ $link_tab["nav4"]["th"]="#";
 
                 <?php
 
-                    echo $sqlIssue = "select ans.*, issue_sub.title_th from tbl_survey_issue issue
+                     $sqlIssue = "select ans.*, issue_sub.title_th from tbl_survey_issue issue
                                 left join tbl_survey_issue_sub issue_sub on issue.id = issue_sub.id_survey_issue
                                 left join tbl_survey_issue_answer ans on issue_sub.id = ans.id_survey_issue_sub
                                 where issue.id_survey_sub= '".$_GET['id_survey']."' and issue_sub.id_survey_issue ='".$row['id']."'";
-                    echo "<br/>-------------------------------------<br/>";
+
                     $queryIssue = mysql_query($sqlIssue);
                     while($rs = mysql_fetch_array($queryIssue)){
 
@@ -142,7 +142,7 @@ $link_tab["nav4"]["th"]="#";
                     <th class="active center">รายละเอียดแบบสำรวจ</th>
                 </tr>
                 <?php
-                    echo $sqlsum = "select DISTINCT date(ans.create_date) as create_date, ans.round 
+                     $sqlsum = "select DISTINCT date(ans.create_date) as create_date, ans.round 
                                     from tbl_survey_issue issue 
                                     left join tbl_survey_issue_sub issue_sub on issue.id = issue_sub.id_survey_issue 
                                     left join tbl_survey_issue_answer ans on issue_sub.id = ans.id_survey_issue_sub 
