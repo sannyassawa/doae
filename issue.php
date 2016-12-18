@@ -43,7 +43,9 @@ $link_tab["nav2"]["th"]="survey.php";
     </div>
 <?php      if($main["type"]==2){?>
     <div class="row">
-        <form  name="myform" id="myform" medthod="POST" action="www.google.com" >
+        <form  name="myform" id="myform" method="POST" action="updatesurvey.php" >
+            <input type="hidden" name="id_survey_sub" id="id_survey_sub" value="<?php echo $_GET['id_survey_sub'] ?>">
+
         <table id="survey" class="table">
             <tr>
                 <th>หัวข้อการประเมิน</th>
@@ -68,13 +70,16 @@ $link_tab["nav2"]["th"]="survey.php";
                 $sql1 = " select * from tbl_survey_issue_sub where id_survey_issue = '".$row['id']."' AND status = 1  ";
                 $result = mysql_query($sql1);
             while ($row1 = mysql_fetch_array($result)) {
-                echo "<tr>
+
+                echo "  
+                        
+                        <tr>
                         <td >".$row1['title_th']."</td>
-                          <td ><input required type='radio' id='check' name='".$row1["id"]."' value='5'></td>
-                          <td ><input required type='radio' id='check' name='".$row1["id"]."' value='4'></td>
-                          <td ><input required type='radio' id='check' name='".$row1["id"]."' value='3'></td>
-                          <td ><input required type='radio' id='check' name='".$row1["id"]."' value='2'></td>
-                          <td ><input required type='radio' id='check' name='".$row1["id"]."' value='1'></td>
+                          <td ><input required type='radio' id='".$row1["id"]."' name='".$row1["id"]."' value='5'></td>
+                          <td ><input required type='radio' id='".$row1["id"]."' name='".$row1["id"]."' value='4'></td>
+                          <td ><input required type='radio' id='".$row1["id"]."' name='".$row1["id"]."' value='3'></td>
+                          <td ><input required type='radio' id='".$row1["id"]."' name='".$row1["id"]."' value='2'></td>
+                          <td ><input required type='radio' id='".$row1["id"]."' name='".$row1["id"]."' value='1'></td>
                     </tr>";
 
                 }
