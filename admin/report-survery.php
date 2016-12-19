@@ -4,29 +4,46 @@
 
 
 <?php
-$sql1 = " select * from tbl_survey where id = '".$_GET['id_survey']."'";
+$sql1 = " select * from tbl_survey where id = '" . $_GET['id_survey'] . "'";
 $query1 = mysql_query($sql1);
 $main1 = mysql_fetch_array($query1);
 
 
-$sql2 = " select * from tbl_survey_sub where id = '".$_GET['id_survey_sub']."'";
+$sql2 = " select * from tbl_survey_sub where id = '" . $_GET['id_survey_sub'] . "'";
 $query2 = mysql_query($sql2);
 $main2 = mysql_fetch_array($query2);
 
-$tab["nav1"]["th"]="ข้อมูลการติดต่อ";
-$tab["nav1"]["en"]="ข้อมูลการติดต่อ";
-$tab["nav2"]["th"]="แบบสำรวจ";
-$tab["nav2"]["en"]="แบบสำรวจ";
-$tab["nav3"]["th"]= (strlen($main1['title_th'])>50)?mb_substr($main1['title_th'], 0, 50, 'utf-8').'...':$main1['title_th'];
-$tab["nav3"]["en"]= (strlen($main1['title_en'])>50)?mb_substr($main1['title_en'], 0, 50, 'utf-8').'...':$main1['title_en'];
-$tab["nav4"]["th"]= (strlen($main2['title_th'])>50)?mb_substr($main2['title_th'], 0, 50, 'utf-8').'...':$main2['title_th'];
+$tab["nav1"]["th"] = "ข้อมูลการติดต่อ";
+$tab["nav1"]["en"] = "ข้อมูลการติดต่อ";
+$tab["nav2"]["th"] = "แบบสำรวจ";
+$tab["nav2"]["en"] = "แบบสำรวจ";
+$tab["nav3"]["th"] = (strlen($main1['title_th']) > 50) ? mb_substr($main1['title_th'], 0, 50, 'utf-8') . '...' : $main1['title_th'];
+$tab["nav3"]["en"] = (strlen($main1['title_en']) > 50) ? mb_substr($main1['title_en'], 0, 50, 'utf-8') . '...' : $main1['title_en'];
+$tab["nav4"]["th"] = (strlen($main2['title_th']) > 50) ? mb_substr($main2['title_th'], 0, 50, 'utf-8') . '...' : $main2['title_th'];
 
 
-$link_tab["nav1"]["th"]="contact.php";
-$link_tab["nav2"]["th"]="survey.php";
-$link_tab["nav3"]["th"]="survey_sub.php?id=".$main1['id'];
-$link_tab["nav4"]["th"]="#";
+$link_tab["nav1"]["th"] = "contact.php";
+$link_tab["nav2"]["th"] = "survey.php";
+$link_tab["nav3"]["th"] = "survey_sub.php?id=" . $main1['id'];
+$link_tab["nav4"]["th"] = "#";
 
+
+
+
+$choise = array();
+echo $sqlAns = "select id_survey_issue_sub, sum(choise1) as choise1, sum(choise2) as choise2, sum(choise3) as choise3,
+                sum(choise4) as choise4, sum(choise5) as choise5, date(create_date) as create_date
+                from tbl_survey_issue_answer where id_survey_sub = '" . $_GET['id_survey_sub'] . "'  group by id_survey_issue_sub";
+$queryAns = mysql_query($sqlAns);
+while ($ans = mysql_fetch_array($queryAns)) {
+
+    $choise[$ans['id_survey_issue_sub']]['choise1'] = $ans['choise1'];
+    $choise[$ans['id_survey_issue_sub']]['choise2'] = $ans['choise2'];
+    $choise[$ans['id_survey_issue_sub']]['choise3'] = $ans['choise3'];
+    $choise[$ans['id_survey_issue_sub']]['choise4'] = $ans['choise4'];
+    $choise[$ans['id_survey_issue_sub']]['choise5'] = $ans['choise5'];
+
+}
 ?>
 
 
@@ -34,7 +51,7 @@ $link_tab["nav4"]["th"]="#";
 <div class="container">
 
     <div class="row">
-        <?php  form_navigator($tab, $link_tab, $addtext, $addlink); ?>
+        <?php form_navigator($tab, $link_tab, $addtext, $addlink); ?>
     </div>
 
     <div class="row">
@@ -59,65 +76,56 @@ $link_tab["nav4"]["th"]="#";
                     <th class="center">น้อยที่สุด</th>
                 </tr>
                 <?php
-//                    $sql = " select issue.title_th as issue_title, issue_sub.title_th as issue_title_detail from tbl_survey_sub s_sub
-//                              left join tbl_survey_issue issue on s_sub.id = issue.id_survey_sub
-//                              left join tbl_survey_issue_sub issue_sub on issue.id = issue_sub.id_survey_issue
-//                              where s_sub.id = '".$_GET['id_survey_sub']."' order by s_sub.id asc, issue.id asc ";
+                $i = 1;
+                $j = 1;
+                echo $sql = "select issue.* from tbl_survey_sub s_sub
+                        left join tbl_survey_issue issue on s_sub.id = issue.id_survey_sub
+                        where s_sub.id = '" . $_GET['id_survey'] . "'";
 
-                    $i=1;
-                    $j=1;
-                     $sql = "select issue.* from tbl_survey_sub s_sub
-                            left join tbl_survey_issue issue on s_sub.id = issue.id_survey_sub
-                            where s_sub.id = '".$_GET['id_survey_sub']."'";
-
-                    $objQuery = mysql_query($sql);
-                    while ($row = mysql_fetch_array($objQuery)){
+                $objQuery = mysql_query($sql);
+                while ($row = mysql_fetch_array($objQuery)) {
 
 
+                    ?>
+                    <tr>
+                        <td class="active" colspan="6"><?php echo $i . '. ' . $row['title_th']; ?></td>
+                    </tr>
 
+                    <?php
 
-                ?>
-                <tr>
-                    <td class="active" colspan="6"><?php echo $i.'. '.$row['title_th'];?></td>
-                </tr>
-
-                <?php
-
-                     $sqlIssue = "select ans.*, issue_sub.title_th from tbl_survey_issue issue
-                                left join tbl_survey_issue_sub issue_sub on issue.id = issue_sub.id_survey_issue
-                                left join tbl_survey_issue_answer ans on issue_sub.id = ans.id_survey_issue_sub
-                                where issue.id_survey_sub= '".$_GET['id_survey']."' and issue_sub.id_survey_issue ='".$row['id']."'";
+                    $sqlIssue = "SELECT * FROM tbl_survey_issue_sub where id_survey_issue = '" . $row['id'] . "'";
 
                     $queryIssue = mysql_query($sqlIssue);
-                    while($rs = mysql_fetch_array($queryIssue)){
-
-                ?>
+                    while ($rs = mysql_fetch_array($queryIssue)) {
 
 
+                        ?>
 
-                <tr>
-                    <td><?php echo $i.'.'.$j.'. '.$rs['title_th'];?></td>
-                    <td class="center"><?php echo $rs['choise1']; ?></td>
-                    <td class="center"><?php echo $rs['choise2']; ?></td>
-                    <td class="center"><?php echo $rs['choise3']; ?></td>
-                    <td class="center"><?php echo $rs['choise4']; ?></td>
-                    <td class="center"><?php echo $rs['choise5']; ?></td>
-                </tr>
 
-                <?php
-                    if($i==1) {
-                        $sumtotal = 0;
-                        $sumtotal += $rs['choise1'];
-                        $sumtotal += $rs['choise2'];
-                        $sumtotal += $rs['choise3'];
-                        $sumtotal += $rs['choise4'];
-                        $sumtotal += $rs['choise5'];
-                    }
+                        <tr>
+                            <td><?php echo $i . '.' . $j . '. ' . $rs['title_th']; ?></td>
+                            <td class="center"><?php echo $choise[$rs['id']]['choise1']; ?></td>
+                            <td class="center"><?php echo $choise[$rs['id']]['choise2']; ?></td>
+                            <td class="center"><?php echo $choise[$rs['id']]['choise3']; ?></td>
+                            <td class="center"><?php echo $choise[$rs['id']]['choise4']; ?></td>
+                            <td class="center"><?php echo $choise[$rs['id']]['choise5']; ?></td>
+
+                        </tr>
+
+                        <?php
+                        if ($i == 1) {
+                            $sumtotal = 0;
+                            $sumtotal += $choise[$rs['id']]['choise1'];
+                            $sumtotal += $choise[$rs['id']]['choise2'];
+                            $sumtotal += $choise[$rs['id']]['choise3'];
+                            $sumtotal += $choise[$rs['id']]['choise4'];
+                            $sumtotal += $choise[$rs['id']]['choise5'];
+                        }
 
                         $j++;
 
                     }
-                    $j=1;
+                    $j = 1;
                     $i++;
                 } ?>
             </table>
@@ -125,8 +133,8 @@ $link_tab["nav4"]["th"]="#";
         <div class="col-md-3"></div>
     </div>
 
+    <!-- ---------------------------------  show by date  ---------------------------------------------------->
 
-<!--    --------------------------------------------------------------------------------------------->
     <div class="row">
         <div class="col-md-12">ผลจากการสำรวจ</div>
     </div>
@@ -142,24 +150,33 @@ $link_tab["nav4"]["th"]="#";
                     <th class="active center">รายละเอียดแบบสำรวจ</th>
                 </tr>
                 <?php
-                     $sqlsum = "select DISTINCT date(ans.create_date) as create_date, ans.round 
+                $sqlsum = "select  date(ans.create_date) as create_date 
                                     from tbl_survey_issue issue 
                                     left join tbl_survey_issue_sub issue_sub on issue.id = issue_sub.id_survey_issue 
                                     left join tbl_survey_issue_answer ans on issue_sub.id = ans.id_survey_issue_sub 
-                                    where issue.id_survey_sub= '".$_GET['id_survey']."' and ans.id_survey_issue_sub != ''
+                                    where issue.id_survey_sub= '" . $_GET['id_survey'] . "' and ans.id_survey_issue_sub != ''
                                     group by date(ans.create_date), ans.round";
-                    $querysum = mysql_query($sqlsum);
-//                    $numrow = mysql_num_rows($querysum);
-                    while($data = mysql_fetch_array($querysum)){
 
-                ?>
-                <tr>
-                    <td class="center"><?php echo $data['create_date'];?></td>
-                    <td class="center"><?php echo $data['round']; ?></td>
-                    <td class="center">
-        <a href="report-detail.php?id_survey_sub=<?php echo $_GET['id_survey'];?>&date=<?php echo $data['create_date'];?>" class="fancybox">ดูรายละเอียด</a></td>
-                </tr>
-                <?php } ?>
+                $querysum = mysql_query($sqlsum);
+                //                    $numrow = mysql_num_rows($querysum);
+                $round = array();
+                while ($data = mysql_fetch_array($querysum)) {
+                    $count[$data['create_date']] += 1;
+                }
+
+                if (is_array($count)) {
+                    foreach ($count as $date => $round) {
+
+                        ?>
+                        <tr>
+                            <td class="center"><?php echo $date; ?></td>
+                            <td class="center"><?php echo $round; ?></td>
+                            <td class="center">
+                                <a href="report-detail.php?id_survey_sub=<?php echo $_GET['id_survey']; ?>&date=<?php echo $date; ?>"
+                                   class="fancybox">ดูรายละเอียด</a></td>
+                        </tr>
+                    <?php }
+                } ?>
             </table>
         </div>
         <div class="col-md-3"></div>
@@ -170,10 +187,10 @@ $link_tab["nav4"]["th"]="#";
 
 <? include('footer.php'); ?>
 <script type="text/javascript" src="js/fancybox/source/jquery.fancybox.js?v=2.1.5"></script>
-<link rel="stylesheet" type="text/css" href="js/fancybox/source/jquery.fancybox.css?v=2.1.5" media="screen" />
+<link rel="stylesheet" type="text/css" href="js/fancybox/source/jquery.fancybox.css?v=2.1.5" media="screen"/>
 
 <script>
-    $(document).ready(function(){
+    $(document).ready(function () {
         $("#numsurvey").html('<?php echo $sumtotal;?>');
         $(".fancybox").fancybox({type: 'ajax'});
     });
