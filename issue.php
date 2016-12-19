@@ -49,11 +49,11 @@ $link_tab["nav2"]["th"]="survey.php";
         <table id="survey" class="table">
             <tr>
                 <th>หัวข้อการประเมิน</th>
-                <th>มากที่สุด</th>
-                <th>มาก</th>
-                <th>ปานกลาง</th>
-                <th>ค่อนข้างน้อย</th>
                 <th>น้อยที่สุด</th>
+                <th>ค่อนข้างน้อย</th>
+                <th>ปานกลาง</th>
+                <th>มาก</th>
+                <th>มากที่สุด</th>
             </tr>
 
             <?php
