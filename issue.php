@@ -75,11 +75,11 @@ $link_tab["nav2"]["th"]="survey.php";
                         
                         <tr>
                         <td >".$row1['title_th']."</td>
-                          <td ><input required type='radio' id='".$row1["id"]."' name='".$row1["id"]."' value='5'></td>
-                          <td ><input required type='radio' id='".$row1["id"]."' name='".$row1["id"]."' value='4'></td>
-                          <td ><input required type='radio' id='".$row1["id"]."' name='".$row1["id"]."' value='3'></td>
-                          <td ><input required type='radio' id='".$row1["id"]."' name='".$row1["id"]."' value='2'></td>
                           <td ><input required type='radio' id='".$row1["id"]."' name='".$row1["id"]."' value='1'></td>
+                          <td ><input required type='radio' id='".$row1["id"]."' name='".$row1["id"]."' value='2'></td>
+                          <td ><input required type='radio' id='".$row1["id"]."' name='".$row1["id"]."' value='3'></td>
+                          <td ><input required type='radio' id='".$row1["id"]."' name='".$row1["id"]."' value='5'></td>
+                          <td ><input required type='radio' id='".$row1["id"]."' name='".$row1["id"]."' value='5'></td>
                     </tr>";
 
                 }
