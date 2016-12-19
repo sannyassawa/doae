@@ -3,6 +3,7 @@ require_once('inc/connectDB.php');
 header("Content-Type: text/html; charset=utf-8");
 
 //print_r($_POST);
+$type = $_POST["type"];
 
 $servay = array();
 $id_survey_issue_sub = array();

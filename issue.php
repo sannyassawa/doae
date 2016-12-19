@@ -45,7 +45,7 @@ $link_tab["nav2"]["th"]="survey.php";
     <div class="row">
         <form  name="myform" id="myform" method="POST" action="updatesurvey.php" >
             <input type="hidden" name="id_survey_sub" id="id_survey_sub" value="<?php echo $_GET['id_survey_sub'] ?>">
-
+            <input type="hidden" name="type" id="type" value="<?php echo $main["type"] ?>">
         <table id="survey" class="table">
             <tr>
                 <th>หัวข้อการประเมิน</th>
@@ -91,7 +91,53 @@ $link_tab["nav2"]["th"]="survey.php";
     </div>
    <center> <input type="submit" name = "submit" id = "submit" value="ส่ง" ></center>
     </form>
-    <?php }?>
+    <?php }else{?>
+
+    <div class="row">
+        <form  name="myform" id="myform" method="POST" action="updatesurvey.php" >
+            <input type="hidden" name="id_survey_sub" id="id_survey_sub" value="<?php echo $_GET['id_survey_sub'] ?>">
+            <input type="hidden" name="type" id="type" value="<?php echo $main["type"] ?>">
+            <table id="survey" class="table">
+                <tr>
+                    <th>หัวข้อการประเมิน</th>
+                    <th>เห็นด้วย</th>
+                    <th>ไม่เห็นด้วย</th>
+
+                </tr>
+                <?php
+                $sql = " select * from tbl_survey_issue where id_survey_sub = '".$_GET['id_survey_sub']."' AND status = 1  ";
+                $objQuery = mysql_query($sql);
+                while ($row = mysql_fetch_array($objQuery)) {
+
+
+
+                    echo "<tr>
+                        <td colspan='6'>".$row['title_th']."</td>
+                            
+                    </tr>";
+                    $sql1 = " select * from tbl_survey_issue_sub where id_survey_issue = '".$row['id']."' AND status = 1  ";
+                    $result = mysql_query($sql1);
+                    while ($row1 = mysql_fetch_array($result)) {
+
+                        echo "  
+                        
+                        <tr>
+                        <td >".$row1['title_th']."</td>
+                          <td ><input required type='radio' id='".$row1["id"]."' name='".$row1["id"]."' value='1'></td>
+                          <td ><input required type='radio' id='".$row1["id"]."' name='".$row1["id"]."' value='2'></td>
+                          
+                    </tr>";
+
+                    }
+                }
+                ?>
+            </table>
+    </div>
+    <center> <input type="submit" name = "submit" id = "submit" value="ส่ง" ></center>
+    </form>
+            <?php
+    } ?>
+    </div>
 </div>
 
 
