@@ -47,11 +47,14 @@ $addlink["th"]="form_survey_sub.php?id_survey=".$main['id'];
             </tr>
 
             <?php
+            if($main['type']==2){
+                $report = "report-survery-a.php"; // 54321
+            }else{
+                $report = "report-survery-b.php"; // yesno
+            }
+
             $sql = " select * from tbl_survey_sub where id_survey = '".$main['id']."' order by status desc, id desc ";
             $objQuery = mysql_query($sql);
-           // $tab = http_build_query(array("tab" => $tab));
-            //$link = http_build_query(array("link" =>$link_tab));
-
             while ($row = mysql_fetch_array($objQuery)) {
 
 
@@ -62,7 +65,7 @@ $addlink["th"]="form_survey_sub.php?id_survey=".$main['id'];
                         <td>".$row['update_date']."</td>
                         <td>".txActive($row['status'])."</td>
                         <td><a href='form_survey_sub.php?id_survey=".$main['id']."&id=".$row['id']."'>แก้ไข</a></td>
-                        <td><a href='report-survery.php?id_survey=".$main['id']."&id_survey_sub=".$row['id']."'>ดูผลการสำรวจ</a></td>
+                        <td><a href='".$report."?id_survey=".$main['id']."&id_survey_sub=".$row['id']."'>ดูผลการสำรวจ</a></td>
                     </tr>";
 
 

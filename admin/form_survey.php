@@ -71,15 +71,15 @@
                         <div class='col-lg-6'><input type="text" name="link" id="link" size="50" value="<?php echo $row['link'];?>" /> </div>
                     </div>
                     <div class='row title-layout'>
-                        <div class='col-lg-2 titlename'>TYPE</div>
+                        <div class='col-lg-2 titlename'>ประเภทแบบสอบถาม</div>
                         <div class='col-lg-6'>
-                            <input type="radio" name="type" id="type1" value="1" <?php echo ($row['type']==1)?"checked":""; ?>/> <label for="type1">Link</label> &nbsp;&nbsp;&nbsp;&nbsp;
-                            <input type="radio" name="type" id="type2" value="2" <?php echo ($row['type']==2)?"checked":""; ?>/> <label for="type2">5 4 3 2 1</label> &nbsp;&nbsp;&nbsp;&nbsp;
-                            <input type="radio" name="type" id="type3" value="3" <?php echo ($row['type']==3)?"checked":""; ?>/> <label for="type3">Yes / No</label>
+                            <input type="radio" name="type" id="type1" value="1" <?php echo ($row['type']==1)?"checked":""; ?>/> <label for="type1">ลิงค์ภายนอก</label> &nbsp;&nbsp;&nbsp;&nbsp;
+                            <input type="radio" name="type" id="type2" value="2" <?php echo ($row['type']==2)?"checked":""; ?>/> <label for="type2">ระดับการให้คะแนน</label> &nbsp;&nbsp;&nbsp;&nbsp;
+                            <input type="radio" name="type" id="type3" value="3" <?php echo ($row['type']==3)?"checked":""; ?>/> <label for="type3">เห็นด้วย / ไม่เห็นด้วย</label>
                         </div>
                     </div>
                     <div class='row title-layout'>
-                        <div class='col-lg-2 titlename'>Status</div>
+                        <div class='col-lg-2 titlename'>สถานะการใช้งาน</div>
                         <div class='col-lg-6'>
                             <input type="radio" name="status" id="status1" value="1" <?php echo ($row['status']==1)?"checked":""; ?>/> <label for="status1">ใช้งาน</label> &nbsp;&nbsp;&nbsp;&nbsp;
                             <input type="radio" name="status" id="status2" value="0" <?php echo ($row['status']==0)?"checked":""; ?>/> <label for="status2">หยุดใช้งาน</label> &nbsp;&nbsp;&nbsp;&nbsp;

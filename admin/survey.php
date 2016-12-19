@@ -31,9 +31,27 @@ $addlink["th"]="form_survey.php";
             $objQuery = mysql_query($sql);
             while ($row = mysql_fetch_array($objQuery)) {
 
+                if($row['type']==1):
+
+                    echo "<tr>
+                        <td>
+                            <div class='row title-layout'>
+                                <div class='col-lg-2 titlename'>หัวข้อ TH</div>
+                                <div class='col-lg-7'><a href='".$row['link']."' target='blank'>".$row['title_th']."</a></div>
+                                <div class='col-lg-1'>".txActive($row['status'])."</div>
+                                <div class='col-lg-2'><a href='form_survey.php?id=".$row['id']."'>แก้ไข</a></div>
+                            </div>
+                            <div class='row title-layout'>
+                                <div class='col-lg-2 titlename'>หัวข้อ EN</div>
+                                <div class='col-lg-7'><a href='".$row['link']."' target='blank'>".$row['title_en']."</a></div>
+                            </div>
+                        </td>
+                    </tr>";
 
 
-                echo "<tr>
+                else:
+
+                    echo "<tr>
                         <td>
                             <div class='row title-layout'>
                                 <div class='col-lg-2 titlename'>หัวข้อ TH</div>
@@ -44,17 +62,14 @@ $addlink["th"]="form_survey.php";
                             <div class='row title-layout'>
                                 <div class='col-lg-2 titlename'>หัวข้อ EN</div>
                                 <div class='col-lg-7'>".ActiveLink($row['title_en'], 'survey_sub.php?id='.$row['id'], $row['type'])."</div>
-                            </div>";
-                if($row['type']==1):
+                            </div>
+                        </td>
+                    </tr>";
 
-                echo        "<div class='row title-layout'>
-                                <div class='col-lg-2 titlename'>Link</div>
-                                <div class='col-lg-7'><a href='".$row['link']."' target='blank'>".$row['link']."</a></div>
-                            </div>";
+
                 endif;
 
-                echo    "</td>
-                    </tr>";
+
 
 
             }
