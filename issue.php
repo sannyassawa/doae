@@ -112,7 +112,7 @@ $link_tab["nav2"]["th"]="survey.php";
 
 
                     echo "<tr>
-                        <td colspan='6'>".$row['title_th']."</td>
+                        <td colspan='6' bgcolor='gray'>".$row['title_th']."</td>
                             
                     </tr>";
                     $sql1 = " select * from tbl_survey_issue_sub where id_survey_issue = '".$row['id']."' AND status = 1  ";

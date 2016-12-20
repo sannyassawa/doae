@@ -42,7 +42,7 @@ $link_tab["nav2"]["th"]="survey.php";
             </tr>
 
             <?php
-            $sql = " select * from tbl_survey_sub where id_survey = '".$main['id']."' order by status desc, id desc ";
+            $sql = " select * from tbl_survey_sub where id_survey = '".$main['id']."' AND status = 1 order by status desc, id desc ";
             $objQuery = mysql_query($sql);
             while ($row = mysql_fetch_array($objQuery)) {
 
