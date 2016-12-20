@@ -30,8 +30,8 @@ while ($ans = mysql_fetch_array($queryAns)) {
             <table class="table table-bordered" id="report-survey">
                 <tr>
                     <th>หัวข้อการประเมิน</th>
-                    <th class="center">เห็นด้วย</th>
-                    <th class="center">ไม่เห็นด้วย</th>
+                    <th style="width:100px;" class="center">เห็นด้วย</th>
+                    <th style="width:100px;" class="center">ไม่เห็นด้วย</th>
                     <th class="center">ข้อเสนอแนะ</th>
 
                 </tr>
@@ -58,14 +58,17 @@ while ($ans = mysql_fetch_array($queryAns)) {
 
                     $queryIssue = mysql_query($sqlIssue);
                     while ($rs = mysql_fetch_array($queryIssue)) {
-
+                            $sumchoise = $perChoise1 = $perChoise2 = 0;
+                            $sumchoise = $choise[$rs['id']]['choise1'] + $choise[$rs['id']]['choise2'];
+                            $perChoise1 = ($choise[$rs['id']]['choise1']/$sumchoise)*100;
+                            $perChoise2 = ($choise[$rs['id']]['choise2']/$sumchoise)*100;
                         ?>
 
 
                         <tr>
                             <td><?php echo $i . '.' . $j . '. ' . $rs['title_th']; ?></td>
-                            <td class="center"><?php echo $choise[$rs['id']]['choise1']; ?></td>
-                            <td class="center"><?php echo $choise[$rs['id']]['choise2']; ?></td>
+                            <td class="center"><?php echo $choise[$rs['id']]['choise1']." (".$perChoise1."%)"; ?></td>
+                            <td class="center"><?php echo $choise[$rs['id']]['choise2']." (".$perChoise2."%)"; ?></td>
                             <td class="center"></td>
 
 
