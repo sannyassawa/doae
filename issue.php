@@ -132,6 +132,9 @@ $link_tab["nav2"]["th"]="survey.php";
                 }
                 ?>
             </table>
+            ข้อเสนอแนะ : <textarea rows="4" cols="50" name="comment" form="myform">
+            </textarea>
+
     </div>
     <center> <input type="submit" name = "submit" id = "submit" value="ส่ง" ></center>
     </form>
