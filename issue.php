@@ -96,7 +96,7 @@ $link_tab["nav2"]["th"]="survey.php";
     <div class="row">
         <form  name="myform" id="myform" method="POST" action="updatesurvey.php" >
             <input type="hidden" name="id_survey_sub" id="id_survey_sub" value="<?php echo $_GET['id_survey_sub'] ?>">
-            <input type="hidden" name="type" id="type" value="<?php echo $main["type"] ?>">
+          
             <table id="survey" class="table">
                 <tr>
                     <th>หัวข้อการประเมิน</th>

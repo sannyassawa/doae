@@ -3,7 +3,7 @@ require_once('inc/connectDB.php');
 header("Content-Type: text/html; charset=utf-8");
 
 //print_r($_POST);
-$type = $_POST["type"];
+
 $comment = $_POST["comment"];
 
 $servay = array();
@@ -25,6 +25,7 @@ $id_survey_sub = $value;
         $i++;
     }
 }
+
 $sql = " SELECT MAX(round) AS MaxID ";
 $sql .= " FROM tbl_survey_issue_answer  ";
 //echo $sql;
@@ -66,7 +67,7 @@ for($index = 0 ; $index < sizeof($id_survey_issue_sub);$index++) {
         //echo "1 is ".$servay[$index];
         $sql .= "( $servay[$index], $id_survey_sub, 1, 0, 0, 0, 0, $round, '".$comment."')";
     }
-     
+
         if (mysql_query($sql, $conn)) {
 
 
