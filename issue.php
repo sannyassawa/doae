@@ -45,7 +45,7 @@ $link_tab["nav2"]["th"]="survey.php";
     <div class="row">
         <form  name="myform" id="myform" method="POST" action="updatesurvey.php" >
             <input type="hidden" name="id_survey_sub" id="id_survey_sub" value="<?php echo $_GET['id_survey_sub'] ?>">
-            
+
         <table id="survey" class="table">
             <tr>
                 <th>หัวข้อการประเมิน</th>
@@ -64,7 +64,7 @@ $link_tab["nav2"]["th"]="survey.php";
 
 
                 echo "<tr>
-                        <td colspan='6'>".$row['title_th']."</td>
+                        <td colspan='6' bgcolor='gray'>".$row['title_th']."</td>
                             
                     </tr>";
                 $sql1 = " select * from tbl_survey_issue_sub where id_survey_issue = '".$row['id']."' AND status = 1  ";
