@@ -60,15 +60,15 @@ while ($ans = mysql_fetch_array($queryAns)) {
                     while ($rs = mysql_fetch_array($queryIssue)) {
                             $sumchoise = $perChoise1 = $perChoise2 = 0;
                             $sumchoise = $choise[$rs['id']]['choise1'] + $choise[$rs['id']]['choise2'];
-                            $perChoise1 = ($choise[$rs['id']]['choise1']/$sumchoise)*100;
-                            $perChoise2 = ($choise[$rs['id']]['choise2']/$sumchoise)*100;
+                            $perChoise1 = number_format( ($choise[$rs['id']]['choise1']/$sumchoise)*100,2);
+                            $perChoise2 = number_format( ($choise[$rs['id']]['choise2']/$sumchoise)*100,2);
                         ?>
 
 
                         <tr>
                             <td><?php echo $i . '.' . $j . '. ' . $rs['title_th']; ?></td>
-                            <td class="center"><?php echo $choise[$rs['id']]['choise1']." (".$perChoise1."%)"; ?></td>
-                            <td class="center"><?php echo $choise[$rs['id']]['choise2']." (".$perChoise2."%)"; ?></td>
+                            <td class="center"><?php echo "(".$perChoise1."%)"; ?></td>
+                            <td class="center"><?php echo "(".$perChoise2."%)"; ?></td>
                             <td class="center"></td>
 
 

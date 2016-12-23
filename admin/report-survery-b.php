@@ -36,11 +36,30 @@ if($main1['type']==2){
 
 
 $choise = array();
-$sqlAns = "select id_survey_issue_sub, sum(choise1) as choise1, sum(choise2) as choise2, sum(choise3) as choise3,
-                sum(choise4) as choise4, sum(choise5) as choise5, date(create_date) as create_date
-                from tbl_survey_issue_answer where id_survey_sub = '" . $_GET['id_survey_sub'] . "'  group by id_survey_sub";
+ $sqlAns = "select ans.id_survey_issue_sub, sum(ans.choise1) as choise1, sum(ans.choise2) as choise2, sum(ans.choise3) as choise3, sum(ans.choise4) as choise4, sum(ans.choise5) as choise5, date(ans.create_date) as create_date
+            from tbl_survey_issue_answer ans
+            left join tbl_survey_issue_sub isub on isub.id = ans.id_survey_issue_sub
+            left join tbl_survey_issue issue on issue.id= isub.id_survey_issue
+            left join tbl_survey_sub survey_sub on survey_sub.id = issue.id_survey_sub
+            where ans.id_survey_sub = '".$_GET['id_survey_sub']."' and survey_sub.id_survey = '".$_GET['id_survey']."' group by ans.id_survey_issue_sub";
+
+//echo $sqlAns = "select id_survey_issue_sub, sum(choise1) as choise1, sum(choise2) as choise2, sum(choise3) as choise3,
+//                sum(choise4) as choise4, sum(choise5) as choise5, date(create_date) as create_date
+//                from tbl_survey_issue_answer where id_survey_sub = '" . $_GET['id_survey'] . "' and  group by id_survey_issue_sub";
 $queryAns = mysql_query($sqlAns);
-$ans = mysql_fetch_array($queryAns);
+while ($ans = mysql_fetch_array($queryAns)) {
+
+    $choise[$ans['id_survey_issue_sub']]['choise1'] = $ans['choise1'];
+    $choise[$ans['id_survey_issue_sub']]['choise2'] = $ans['choise2'];
+
+}
+
+//$choise = array();
+//$sqlAns = "select id_survey_issue_sub, sum(choise1) as choise1, sum(choise2) as choise2, sum(choise3) as choise3,
+//                sum(choise4) as choise4, sum(choise5) as choise5, date(create_date) as create_date
+//                from tbl_survey_issue_answer where id_survey_sub = '" . $_GET['id_survey_sub'] . "'  group by id_survey_sub";
+//$queryAns = mysql_query($sqlAns);
+//$ans = mysql_fetch_array($queryAns);
 ?>
 
 
@@ -56,44 +75,116 @@ $ans = mysql_fetch_array($queryAns);
         <div class="col-md-12">สรุปผลจากการสำรวจ</div>
     </div>
 
-    <div class="row">
-        <div class="col-md-3">จำนวนผู้เข้าร่วมสำรวจทั้งหมด <span id="numsurvey"></span> คน</div>
-        <div class="col-md-1">เห็นด้วย</div>
-        <div class="col-md-1"><?php echo $ans['choise1'];?></div>
-        <div class="col-md-1">ประเด็น</div>
-        <div class="col-md-1">ไม่เห็นด้วย</div>
-        <div class="col-md-1"><?php echo $ans['choise2'];?></div>
-        <div class="col-md-1">ประเด็น</div>
-        <div class="col-md-3"></div>
-    </div>
-    <?php
-        if($ans['choise1']==0){
-            $div_choise1 = 1;
-        }else{
-            $div_choise1 = 2;
-        }
-        if($ans['choise2']==0){
-            $div_choise2 = 1;
-        }else{
-            $div_choise2 = 2;
-        }
-        $sumchoise = $ans['choise1'] + $ans['choise2'];
-    ?>
+
+
+
 
     <div class="row">
-        <div class="col-md-3"></div>
-        <div class="col-md-1">คิดเป็น</div>
-        <div class="col-md-1"><?php echo ($ans['choise1']/ $sumchoise)*100;?></div>
-        <div class="col-md-1">เปอร์เซ็น</div>
-        <div class="col-md-1">คิดเป็น</div>
-        <div class="col-md-1"><?php echo ($ans['choise2']/ $sumchoise)*100;?></div>
-        <div class="col-md-1">เปอร์เซ็น</div>
-        <div class="col-md-3"></div>
+        <div class="col-md-12">จำนวนผู้เข้าร่วมสำรวจทั้งหมด <span id="numsurvey"></span> คน</div>
     </div>
     <br/><br/>
     <div class="row">
         <div class="col-md-10"><hr style="border-top: 1px solid #CCC"/></div>
     </div>
+
+    <div class="row">
+        <div class="col-md-1"></div>
+        <div class="col-md-8">
+            <table class="table table-bordered" id="report-survey">
+                <tr>
+                    <th>หัวข้อการประเมิน</th>
+                    <th class="center">เห็นด้วย</th>
+                    <th class="center">ไม่เห็นด้วย</th>
+                    <th class="center">ข้อเสนอแนะ</th>
+                </tr>
+                <?php
+                $i = 1;
+                $j = 1;
+                $sql = "select issue.* from tbl_survey_sub s_sub
+                        left join tbl_survey_issue issue on s_sub.id = issue.id_survey_sub
+                        where issue.id_survey_sub = '" . $_GET['id_survey_sub'] . "'";
+
+                $objQuery = mysql_query($sql);
+                while ($row = mysql_fetch_array($objQuery)) {
+
+
+                    ?>
+                    <tr>
+                        <td class="active" colspan="6"><?php echo $i . '. ' . $row['title_th']; ?></td>
+                    </tr>
+
+                    <?php
+
+                     $sqlIssue = "SELECT * FROM tbl_survey_issue_sub where id_survey_issue = '" . $row['id'] . "'";
+
+                    $queryIssue = mysql_query($sqlIssue);
+                    while ($rs = mysql_fetch_array($queryIssue)) {
+
+
+                        ?>
+
+
+                        <tr>
+                            <td><?php echo $i . '.' . $j . '. ' . $rs['title_th']; ?></td>
+                            <td class="center"><?php echo $choise[$rs['id']]['choise1']; ?></td>
+                            <td class="center"><?php echo $choise[$rs['id']]['choise2']; ?></td>
+                            <td class="center"></td>
+                        </tr>
+
+                        <?php
+
+                        $j++;
+                    }
+                    $j = 1;
+                    $i++;
+                } ?>
+            </table>
+        </div>
+        <div class="col-md-3"></div>
+    </div>
+
+
+
+
+
+<!--    <div class="row">-->
+<!--        <div class="col-md-3">จำนวนผู้เข้าร่วมสำรวจทั้งหมด <span id="numsurvey"></span> คน</div>-->
+<!--        <div class="col-md-1">เห็นด้วย</div>-->
+<!--        <div class="col-md-1">--><?php //echo $ans['choise1'];?><!--</div>-->
+<!--        <div class="col-md-1">ประเด็น</div>-->
+<!--        <div class="col-md-1">ไม่เห็นด้วย</div>-->
+<!--        <div class="col-md-1">--><?php //echo $ans['choise2'];?><!--</div>-->
+<!--        <div class="col-md-1">ประเด็น</div>-->
+<!--        <div class="col-md-3"></div>-->
+<!--    </div>-->
+<!--    --><?php
+//        if($ans['choise1']==0){
+//            $div_choise1 = 1;
+//        }else{
+//            $div_choise1 = 2;
+//        }
+//        if($ans['choise2']==0){
+//            $div_choise2 = 1;
+//        }else{
+//            $div_choise2 = 2;
+//        }
+//        $sumchoise = $ans['choise1'] + $ans['choise2'];
+//    ?>
+<!---->
+<!--    <div class="row">-->
+<!--        <div class="col-md-3"></div>-->
+<!--        <div class="col-md-1">คิดเป็น</div>-->
+<!--        <div class="col-md-1">--><?php //echo number_format(($ans['choise1']/ $sumchoise)*100,2);?><!--</div>-->
+<!--        <div class="col-md-1">เปอร์เซ็น</div>-->
+<!--        <div class="col-md-1">คิดเป็น</div>-->
+<!--        <div class="col-md-1">--><?php //echo number_format(($ans['choise2']/ $sumchoise)*100,2);?><!--</div>-->
+<!--        <div class="col-md-1">เปอร์เซ็น</div>-->
+<!--        <div class="col-md-3"></div>-->
+<!--    </div>-->
+<!--    <br/><br/>-->
+<!--    <div class="row">-->
+<!--        <div class="col-md-10"><hr style="border-top: 1px solid #CCC"/></div>-->
+<!--    </div>-->
 
 
 
