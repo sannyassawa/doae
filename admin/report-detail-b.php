@@ -1,20 +1,19 @@
 <?php include('header-report-survey.php'); ?>
 
 <?php
-
+$id_survey = $_GET['id_survey'];
+$id_survey_sub = $_GET['id_survey_sub'];
 $choise = array();
-$sqlAns = "select id_survey_issue_sub, sum(choise1) as choise1, sum(choise2) as choise2, sum(choise3) as choise3,
-                sum(choise4) as choise4, sum(choise5) as choise5, date(create_date) as create_date
-                from tbl_survey_issue_answer where id_survey_sub = '" . $_GET['id_survey_sub'] . "' and date(create_date) = '" . $_GET['date'] . "' group by id_survey_issue_sub";
-$queryAns = mysql_query($sqlAns);
-while ($ans = mysql_fetch_array($queryAns)) {
+$sqlAns1 = "select id_survey_issue_sub, sum(choise1) as choise1, sum(choise2) as choise2 "
+				.",sum(choise3) as choise3, sum(choise4) as choise4, sum(choise5) as choise5 "
+				."from tbl_survey_issue_answer ans "
+				."where id_survey_sub = '$id_survey_sub'  group by id_survey_issue_sub";
+			
+$queryAns1 = mysql_query($sqlAns1);
+while($ans = mysql_fetch_array($queryAns1)) {
 
     $choise[$ans['id_survey_issue_sub']]['choise1'] = $ans['choise1'];
     $choise[$ans['id_survey_issue_sub']]['choise2'] = $ans['choise2'];
-    $choise[$ans['id_survey_issue_sub']]['choise3'] = $ans['choise3'];
-    $choise[$ans['id_survey_issue_sub']]['choise4'] = $ans['choise4'];
-    $choise[$ans['id_survey_issue_sub']]['choise5'] = $ans['choise5'];
-
 }
 
 ?>

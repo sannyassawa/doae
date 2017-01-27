@@ -3,10 +3,13 @@
 <?php
 
 $choise = array();
-$sqlAns = "select id_survey_issue_sub, sum(choise1) as choise1, sum(choise2) as choise2, sum(choise3) as choise3,
-                sum(choise4) as choise4, sum(choise5) as choise5, date(create_date) as create_date
-                from tbl_survey_issue_answer where id_survey_sub = '" . $_GET['id_survey_sub'] . "' and date(create_date) = '" . $_GET['date'] . "' group by id_survey_issue_sub";
-$queryAns = mysql_query($sqlAns);
+$id_survey_sub = $_GET['id_survey_sub'];
+$date = $_GET['date'];				
+$sqlAns1 = "select id_survey_issue_sub, sum(choise1) as choise1, sum(choise2) as choise2 "
+				.",sum(choise3) as choise3, sum(choise4) as choise4, sum(choise5) as choise5 "
+				."from tbl_survey_issue_answer ans "
+				."where id_survey_sub = '$id_survey_sub'  and date(ans.create_date) = '$date' group by id_survey_issue_sub";				
+$queryAns = mysql_query($sqlAns1);
 while ($ans = mysql_fetch_array($queryAns)) {
 
     $choise[$ans['id_survey_issue_sub']]['choise1'] = $ans['choise1'];

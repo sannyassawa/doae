@@ -40,7 +40,7 @@ $link_tab["nav4"]["th"]="#";
 
 
 
-if(is_array($_POST)){foreach ($_POST as $k => $v){${$k} = $v;}}
+if(is_array($_POST)){foreach ($_POST as $k => $v){${$k} = trim($v);}}
 
 if($_SERVER['REQUEST_METHOD']=='POST'){
 

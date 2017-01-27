@@ -1,4 +1,4 @@
-<?php
+<?php 
 require_once('inc/connectDB.php');
 header("Content-Type: text/html; charset=utf-8");
 
@@ -40,32 +40,32 @@ else{
     $round=1;
 }
 //echo "round is ".$round;
-
+$today = date("Y-m-d H:i:s");
 for($index = 0 ; $index < sizeof($id_survey_issue_sub);$index++) {
 
     $sql = " INSERT  INTO tbl_survey_issue_answer
-					 ( id_survey_issue_sub, id_survey_sub, choise1,choise2,choise3,choise4,choise5,round, description ) ";
+					 ( id_survey_issue_sub, id_survey_sub, choise1,choise2,choise3,choise4,choise5,round, create_date, description ) ";
     $sql .= " VALUES ";
     if($servay[$index]==5) {
         //echo "5 is ".$servay[$index];
-        $sql .= "( $id_survey_issue_sub[$index], $id_survey_sub, 0, 0, 0, 0, 1, $round, '".$comment."')";
+        $sql .= "( $id_survey_issue_sub[$index], $id_survey_sub, 0, 0, 0, 0, 1, $round, '$today', '".$comment."')";
     }
     else if($servay[$index]==4){
         //echo "4 is ".$servay[$index];
-        $sql .= "( $id_survey_issue_sub[$index], $id_survey_sub, 0, 0, 0, 1, 0, $round, '".$comment."')";
+        $sql .= "( $id_survey_issue_sub[$index], $id_survey_sub, 0, 0, 0, 1, 0, $round, '$today', '".$comment."')";
 
     }
     else if($servay[$index]==3){
         //echo "3 is ".$servay[$index];
-        $sql .= "( $id_survey_issue_sub[$index], $id_survey_sub, 0, 0, 1, 0, 0, $round, '".$comment."')";
+        $sql .= "( $id_survey_issue_sub[$index], $id_survey_sub, 0, 0, 1, 0, 0, $round, '$today', '".$comment."')";
     }
     else if($servay[$index]==2){
        // echo "2 is ".$servay[$index];
-        $sql .= "( $id_survey_issue_sub[$index], $id_survey_sub, 0, 1, 0, 0, 0, $round, '".$comment."')";
+        $sql .= "( $id_survey_issue_sub[$index], $id_survey_sub, 0, 1, 0, 0, 0, $round, '$today', '".$comment."')";
     }
     else{
         //echo "1 is ".$servay[$index];
-        $sql .= "( $id_survey_issue_sub[$index], $id_survey_sub, 1, 0, 0, 0, 0, $round, '".$comment."')";
+        $sql .= "( $id_survey_issue_sub[$index], $id_survey_sub, 1, 0, 0, 0, 0, $round, '$today', '".$comment."')";
     }
 
         if (mysql_query($sql, $conn)) {

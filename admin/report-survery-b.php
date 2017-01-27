@@ -4,14 +4,17 @@
 
 
 <?php
-$sql1 = " select * from tbl_survey where id = '" . $_GET['id_survey'] . "'";
-$query1 = mysql_query($sql1);
-$main1 = mysql_fetch_array($query1);
+$id_survey = $_GET['id_survey'];
+$id_survey_sub = $_GET['id_survey_sub'];
 
+$sql = " select * from tbl_survey where id = '".$id_survey."'";
+$query = mysql_query($sql);
+$main1 = mysql_fetch_array($query);
 
-$sql2 = " select * from tbl_survey_sub where id = '" . $_GET['id_survey_sub'] . "'";
-$query2 = mysql_query($sql2);
-$main2 = mysql_fetch_array($query2);
+$sql = " select * from tbl_survey_sub where id = '".$id_survey_sub."'";
+$query = mysql_query($sql);
+$main2 = mysql_fetch_array($query);
+
 
 $tab["nav1"]["th"] = "ข้อมูลการติดต่อ";
 $tab["nav1"]["en"] = "ข้อมูลการติดต่อ";
@@ -20,12 +23,13 @@ $tab["nav2"]["en"] = "แบบสำรวจ";
 $tab["nav3"]["th"] = (strlen($main1['title_th']) > 50) ? mb_substr($main1['title_th'], 0, 50, 'utf-8') . '...' : $main1['title_th'];
 $tab["nav3"]["en"] = (strlen($main1['title_en']) > 50) ? mb_substr($main1['title_en'], 0, 50, 'utf-8') . '...' : $main1['title_en'];
 $tab["nav4"]["th"] = (strlen($main2['title_th']) > 50) ? mb_substr($main2['title_th'], 0, 50, 'utf-8') . '...' : $main2['title_th'];
+$tab["nav4"]["en"] = (strlen($main2['title_en']) > 50) ? mb_substr($main2['title_en'], 0, 50, 'utf-8') . '...' : $main2['title_en'];
 
+$link_tab["nav1"]["th"]="contact.php";
+$link_tab["nav2"]["th"]="survey.php";
+$link_tab["nav3"]["th"]="survey_sub.php?id=$id_survey";
 
-$link_tab["nav1"]["th"] = "contact.php";
-$link_tab["nav2"]["th"] = "survey.php";
-$link_tab["nav3"]["th"] = "survey_sub.php?id=" . $main1['id'];
-$link_tab["nav4"]["th"] = "#";
+form_navigator($array_tab, $link, $addtext, $addlink);
 
 
 if($main1['type']==2){
@@ -35,31 +39,17 @@ if($main1['type']==2){
 }
 
 
-$choise = array();
- $sqlAns = "select ans.id_survey_issue_sub, sum(ans.choise1) as choise1, sum(ans.choise2) as choise2, sum(ans.choise3) as choise3, sum(ans.choise4) as choise4, sum(ans.choise5) as choise5, date(ans.create_date) as create_date
-            from tbl_survey_issue_answer ans
-            left join tbl_survey_issue_sub isub on isub.id = ans.id_survey_issue_sub
-            left join tbl_survey_issue issue on issue.id= isub.id_survey_issue
-            left join tbl_survey_sub survey_sub on survey_sub.id = issue.id_survey_sub
-            where ans.id_survey_sub = '".$_GET['id_survey_sub']."' and survey_sub.id_survey = '".$_GET['id_survey']."' group by ans.id_survey_issue_sub";
-
-//echo $sqlAns = "select id_survey_issue_sub, sum(choise1) as choise1, sum(choise2) as choise2, sum(choise3) as choise3,
-//                sum(choise4) as choise4, sum(choise5) as choise5, date(create_date) as create_date
-//                from tbl_survey_issue_answer where id_survey_sub = '" . $_GET['id_survey'] . "' and  group by id_survey_issue_sub";
-$queryAns = mysql_query($sqlAns);
-while ($ans = mysql_fetch_array($queryAns)) {
+$sqlAns1 = "select id_survey_issue_sub, sum(choise1) as choise1, sum(choise2) as choise2 "
+				.",sum(choise3) as choise3, sum(choise4) as choise4, sum(choise5) as choise5 "
+				."from tbl_survey_issue_answer ans "
+				."where id_survey_sub = '$id_survey_sub'  group by id_survey_issue_sub";
+			
+$queryAns1 = mysql_query($sqlAns1);
+while($ans = mysql_fetch_array($queryAns1)) {
 
     $choise[$ans['id_survey_issue_sub']]['choise1'] = $ans['choise1'];
     $choise[$ans['id_survey_issue_sub']]['choise2'] = $ans['choise2'];
-
 }
-
-//$choise = array();
-//$sqlAns = "select id_survey_issue_sub, sum(choise1) as choise1, sum(choise2) as choise2, sum(choise3) as choise3,
-//                sum(choise4) as choise4, sum(choise5) as choise5, date(create_date) as create_date
-//                from tbl_survey_issue_answer where id_survey_sub = '" . $_GET['id_survey_sub'] . "'  group by id_survey_sub";
-//$queryAns = mysql_query($sqlAns);
-//$ans = mysql_fetch_array($queryAns);
 ?>
 
 
@@ -102,7 +92,7 @@ while ($ans = mysql_fetch_array($queryAns)) {
                 $j = 1;
                 $sql = "select issue.* from tbl_survey_sub s_sub
                         left join tbl_survey_issue issue on s_sub.id = issue.id_survey_sub
-                        where issue.id_survey_sub = '" . $_GET['id_survey_sub'] . "'";
+                        where issue.id_survey_sub = '" . $id_survey_sub . "'";
 
                 $objQuery = mysql_query($sql);
                 while ($row = mysql_fetch_array($objQuery)) {
@@ -142,50 +132,6 @@ while ($ans = mysql_fetch_array($queryAns)) {
         </div>
         <div class="col-md-3"></div>
     </div>
-
-
-
-
-
-<!--    <div class="row">-->
-<!--        <div class="col-md-3">จำนวนผู้เข้าร่วมสำรวจทั้งหมด <span id="numsurvey"></span> คน</div>-->
-<!--        <div class="col-md-1">เห็นด้วย</div>-->
-<!--        <div class="col-md-1">--><?php //echo $ans['choise1'];?><!--</div>-->
-<!--        <div class="col-md-1">ประเด็น</div>-->
-<!--        <div class="col-md-1">ไม่เห็นด้วย</div>-->
-<!--        <div class="col-md-1">--><?php //echo $ans['choise2'];?><!--</div>-->
-<!--        <div class="col-md-1">ประเด็น</div>-->
-<!--        <div class="col-md-3"></div>-->
-<!--    </div>-->
-<!--    --><?php
-//        if($ans['choise1']==0){
-//            $div_choise1 = 1;
-//        }else{
-//            $div_choise1 = 2;
-//        }
-//        if($ans['choise2']==0){
-//            $div_choise2 = 1;
-//        }else{
-//            $div_choise2 = 2;
-//        }
-//        $sumchoise = $ans['choise1'] + $ans['choise2'];
-//    ?>
-<!---->
-<!--    <div class="row">-->
-<!--        <div class="col-md-3"></div>-->
-<!--        <div class="col-md-1">คิดเป็น</div>-->
-<!--        <div class="col-md-1">--><?php //echo number_format(($ans['choise1']/ $sumchoise)*100,2);?><!--</div>-->
-<!--        <div class="col-md-1">เปอร์เซ็น</div>-->
-<!--        <div class="col-md-1">คิดเป็น</div>-->
-<!--        <div class="col-md-1">--><?php //echo number_format(($ans['choise2']/ $sumchoise)*100,2);?><!--</div>-->
-<!--        <div class="col-md-1">เปอร์เซ็น</div>-->
-<!--        <div class="col-md-3"></div>-->
-<!--    </div>-->
-<!--    <br/><br/>-->
-<!--    <div class="row">-->
-<!--        <div class="col-md-10"><hr style="border-top: 1px solid #CCC"/></div>-->
-<!--    </div>-->
-
 
 
     <!-- ---------------------------------  show by date  ---------------------------------------------------->

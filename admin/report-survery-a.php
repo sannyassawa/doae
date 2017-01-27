@@ -4,14 +4,18 @@
 
 
 <?php
-$sql1 = " select * from tbl_survey where id = '" . $_GET['id_survey'] . "'";
-$query1 = mysql_query($sql1);
-$main1 = mysql_fetch_array($query1);
 
+$id_survey = $_GET['id_survey'];
+$id_survey_sub = $_GET['id_survey_sub'];
 
-$sql2 = " select * from tbl_survey_sub where id = '" . $_GET['id_survey_sub'] . "'";
-$query2 = mysql_query($sql2);
-$main2 = mysql_fetch_array($query2);
+$sql = " select * from tbl_survey where id = '".$id_survey."'";
+$query = mysql_query($sql);
+$main1 = mysql_fetch_array($query);
+
+$sql = " select * from tbl_survey_sub where id = '".$id_survey_sub."'";
+$query = mysql_query($sql);
+$main2 = mysql_fetch_array($query);
+
 
 $tab["nav1"]["th"] = "ข้อมูลการติดต่อ";
 $tab["nav1"]["en"] = "ข้อมูลการติดต่อ";
@@ -20,12 +24,13 @@ $tab["nav2"]["en"] = "แบบสำรวจ";
 $tab["nav3"]["th"] = (strlen($main1['title_th']) > 50) ? mb_substr($main1['title_th'], 0, 50, 'utf-8') . '...' : $main1['title_th'];
 $tab["nav3"]["en"] = (strlen($main1['title_en']) > 50) ? mb_substr($main1['title_en'], 0, 50, 'utf-8') . '...' : $main1['title_en'];
 $tab["nav4"]["th"] = (strlen($main2['title_th']) > 50) ? mb_substr($main2['title_th'], 0, 50, 'utf-8') . '...' : $main2['title_th'];
+$tab["nav4"]["en"] = (strlen($main2['title_en']) > 50) ? mb_substr($main2['title_en'], 0, 50, 'utf-8') . '...' : $main2['title_en'];
 
+$link_tab["nav1"]["th"]="contact.php";
+$link_tab["nav2"]["th"]="survey.php";
+$link_tab["nav3"]["th"]="survey_sub.php?id=$id_survey";
 
-$link_tab["nav1"]["th"] = "contact.php";
-$link_tab["nav2"]["th"] = "survey.php";
-$link_tab["nav3"]["th"] = "survey_sub.php?id=" . $main1['id'];
-$link_tab["nav4"]["th"] = "#";
+form_navigator($array_tab, $link, $addtext, $addlink);
 
 
 if($main1['type']==2){
@@ -35,18 +40,13 @@ if($main1['type']==2){
 }
 
 
-$choise = array();
-$sqlAns = "select ans.id_survey_issue_sub, sum(ans.choise1) as choise1, sum(ans.choise2) as choise2, sum(ans.choise3) as choise3, sum(ans.choise4) as choise4, sum(ans.choise5) as choise5, date(ans.create_date) as create_date 
-            from tbl_survey_issue_answer ans
-            left join tbl_survey_issue_sub isub on isub.id = ans.id_survey_issue_sub
-            left join tbl_survey_issue issue on issue.id= isub.id_survey_issue
-            where ans.id_survey_sub = '".$_GET['id_survey']."' and issue.id_survey_sub = '".$_GET['id_survey_sub']."' group by ans.id_survey_issue_sub";
-
-//echo $sqlAns = "select id_survey_issue_sub, sum(choise1) as choise1, sum(choise2) as choise2, sum(choise3) as choise3,
-//                sum(choise4) as choise4, sum(choise5) as choise5, date(create_date) as create_date
-//                from tbl_survey_issue_answer where id_survey_sub = '" . $_GET['id_survey'] . "' and  group by id_survey_issue_sub";
-$queryAns = mysql_query($sqlAns);
-while ($ans = mysql_fetch_array($queryAns)) {
+$sqlAns1 = "select id_survey_issue_sub, sum(choise1) as choise1, sum(choise2) as choise2 "
+				.",sum(choise3) as choise3, sum(choise4) as choise4, sum(choise5) as choise5 "
+				."from tbl_survey_issue_answer ans "
+				."where id_survey_sub = '$id_survey_sub'  group by id_survey_issue_sub";
+			
+$queryAns1 = mysql_query($sqlAns1);
+while($ans = mysql_fetch_array($queryAns1)) {
 
     $choise[$ans['id_survey_issue_sub']]['choise1'] = $ans['choise1'];
     $choise[$ans['id_survey_issue_sub']]['choise2'] = $ans['choise2'];
@@ -55,6 +55,7 @@ while ($ans = mysql_fetch_array($queryAns)) {
     $choise[$ans['id_survey_issue_sub']]['choise5'] = $ans['choise5'];
 
 }
+
 ?>
 
 
@@ -93,9 +94,9 @@ while ($ans = mysql_fetch_array($queryAns)) {
                 <?php
                 $i = 1;
                 $j = 1;
-                $sql = "select issue.* from tbl_survey_sub s_sub
+                 $sql = "select issue.* from tbl_survey_sub s_sub
                         left join tbl_survey_issue issue on s_sub.id = issue.id_survey_sub
-                        where s_sub.id = '" . $_GET['id_survey'] . "'";
+                        where s_sub.id = '" . $id_survey_sub . "'";
 
                 $objQuery = mysql_query($sql);
                 while ($row = mysql_fetch_array($objQuery)) {
@@ -119,11 +120,11 @@ while ($ans = mysql_fetch_array($queryAns)) {
 
                         <tr>
                             <td><?php echo $i . '.' . $j . '. ' . $rs['title_th']; ?></td>
-                            <td class="center"><?php echo $choise[$rs['id']]['choise1']; ?></td>
-                            <td class="center"><?php echo $choise[$rs['id']]['choise2']; ?></td>
-                            <td class="center"><?php echo $choise[$rs['id']]['choise3']; ?></td>
-                            <td class="center"><?php echo $choise[$rs['id']]['choise4']; ?></td>
                             <td class="center"><?php echo $choise[$rs['id']]['choise5']; ?></td>
+                            <td class="center"><?php echo $choise[$rs['id']]['choise4']; ?></td>
+                            <td class="center"><?php echo $choise[$rs['id']]['choise3']; ?></td>
+                            <td class="center"><?php echo $choise[$rs['id']]['choise2']; ?></td>
+                            <td class="center"><?php echo $choise[$rs['id']]['choise1']; ?></td>
 
                         </tr>
 
@@ -157,15 +158,12 @@ while ($ans = mysql_fetch_array($queryAns)) {
                     <th class="active center">รายละเอียดแบบสำรวจ</th>
                 </tr>
                 <?php
-                $sqlsum = "select  date(ans.create_date) as create_date 
-                                    from tbl_survey_issue issue 
-                                    left join tbl_survey_issue_sub issue_sub on issue.id = issue_sub.id_survey_issue 
-                                    left join tbl_survey_issue_answer ans on issue_sub.id = ans.id_survey_issue_sub 
-                                    where issue.id_survey_sub= '" . $_GET['id_survey'] . "' and issue.id_survey_sub = '".$_GET['id_survey_sub']."' and ans.id_survey_issue_sub != ''
-                                    group by date(ans.create_date), ans.round";
-
+ 									
+				$sqlsum = "SELECT DATE(ans.create_date) AS create_date FROM tbl_survey_issue_answer ans
+							where id_survey_sub = '$id_survey_sub'
+							GROUP BY DATE(ans.create_date), ans.round";
                 $querysum = mysql_query($sqlsum);
-                //                    $numrow = mysql_num_rows($querysum);
+                $numrow = mysql_num_rows($querysum);
                 $round = array();
                 while ($data = mysql_fetch_array($querysum)) {
                     $count[$data['create_date']] += 1;
@@ -179,7 +177,7 @@ while ($ans = mysql_fetch_array($queryAns)) {
                             <td class="center"><?php echo $date; ?></td>
                             <td class="center"><?php echo $round; ?></td>
                             <td class="center">
-                                <a href="<?php echo $report_detail;?>?id_survey_sub=<?php echo $_GET['id_survey']; ?>&date=<?php echo $date; ?>"
+                                <a href="<?php echo $report_detail;?>?id_survey_sub=<?php echo $id_survey_sub; ?>&date=<?php echo $date; ?>"
                                    class="fancybox">ดูรายละเอียด</a></td>
                         </tr>
                     <?php  $sumtotal += $round;     }

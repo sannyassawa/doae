@@ -38,7 +38,6 @@ $link_tab["nav2"]["th"]="survey.php";
                 <th>ช่วงเวลาที่ใช้</th>
                 <th>อับเดต</th>
                 <th>สภานะ</th>
-                <th>ดูผลการสำรวจ</th>
             </tr>
 
             <?php
@@ -53,7 +52,6 @@ $link_tab["nav2"]["th"]="survey.php";
                         <td>".$row['start_date']." - ".$row['end_date']."</td>
                         <td>".$row['update_date']."</td>
                         <td>".txActive($row['status'])."</td>
-                        <td>ดูผลการสำรวจ</td>
                     </tr>";
 
 
